@@ -31,7 +31,7 @@ char * readline( FILE * file)
         return NULL;
     }
 
-    while ( fgets(outputString + startingPos, bufferSize, file ) ) 
+    while ( fgets(outputString + startingPos, bufferSize - startingPos, file ) ) 
     { 
         if (ferror(file)) 
         {
