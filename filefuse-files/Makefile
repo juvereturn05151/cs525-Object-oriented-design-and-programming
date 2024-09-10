@@ -17,7 +17,7 @@ endif
 
 all: # used by online testing
 	@echo Compile with C and C++
-	gcc -c fuse.c $(GCCFLAGS)
+	g++ -c fuse.c $(GCCFLAGS)
 	g++ -c driver.cpp $(GCCFLAGS)
 	g++ -o $(PRG) fuse.o driver.o $(GCCFLAGS)
 
