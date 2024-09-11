@@ -13,7 +13,7 @@ Brief: Fuse and unfuse files
 
 #define xDEBUG
 #define MAXIMUM_FILE_SIZE 256
-#define BUFFER_SIZE (1 << 16) /*Use For Reading the Filename*/
+#define BUFFER_SIZE (1 << 16) /*Use For Reading the Data*/
 
 /*
 Brief: 
@@ -86,12 +86,12 @@ int unfuse( char const * filename )
 
     while(!feof(read_file))
     {
-        out_fileName = (char*)malloc(BUFFER_SIZE * sizeof(char));
+        out_fileName = (char*)malloc(MAXIMUM_FILE_SIZE * sizeof(char));
         get_filename(out_fileName, read_file);
 
         out_file = fopen(out_fileName, "wb");
         if (out_file == NULL) {
-            printf("Unable to open output file %s", out_fileName);
+            //printf("Unable to open output file %s", out_fileName);
             free(out_fileName);
             return -1;
         }
@@ -145,17 +145,20 @@ void get_filename(char* filename, FILE* read_file)
 {
     char ch;
     int i;
+    size_t read_size;
     i = 0;
-    
-   while ((ch = fgetc(read_file)) != EOF) 
+
+   do
    {
-        if (ch == '\0') 
-        {
-            filename[i] = '\0'; 
+        read_size = fread(&ch, sizeof(char), 1, read_file);
+
+        if (read_size == 0 || ch == '\0') {
+            filename[i] = '\0';
             break;
         }
 
         filename[i] = ch;
         i++;
-    }
+   }
+   while (read_size > 0);
 }
