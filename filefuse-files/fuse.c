@@ -4,15 +4,13 @@ E-mail: juvereturn@gmail.com
 Brief: Fuse and unfuse files
 */
 
-
-
 #include "fuse.h"
 #include <stdio.h>    /* fopen/fclose/fread/fwrite */
 #include <stdlib.h>   /* malloc/free */
 #include <string.h>   /* strlen */
 
 #define xDEBUG
-#define MAXIMUM_FILE_SIZE 256
+#define MAXIMUM_FILE_NAME 256
 #define BUFFER_SIZE (1 << 16) /*Use For Reading the Data*/
 
 /*
@@ -20,6 +18,7 @@ Brief:
 Loop through given filesnames
 Open the file, and write the file name
 Write the file size by using fseek and ftell to calculate the filesize
+Read And Write File into the buffer
 */
 
 int fuse( char const ** filenames, int num_files, char const * output)
@@ -86,22 +85,20 @@ int unfuse( char const * filename )
 
     while(!feof(read_file))
     {
-        out_fileName = (char*)malloc(MAXIMUM_FILE_SIZE * sizeof(char));
+        out_fileName = (char*)malloc(MAXIMUM_FILE_NAME * sizeof(char));
         get_filename(out_fileName, read_file);
 
         out_file = fopen(out_fileName, "wb");
         if (out_file == NULL) {
-            //printf("Unable to open output file %s", out_fileName);
+            /*NO more file to read*/
             free(out_fileName);
-            return -1;
+            return 1;
         }
 
         /*Read the file size*/
-
         fread(&file_size, sizeof(int), 1, read_file);
 
         /*Create a buffer for read and write data*/
-
         buffer = (char*)malloc(file_size*sizeof(char));
         if(buffer == NULL)
         {
