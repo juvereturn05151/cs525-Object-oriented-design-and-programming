@@ -68,9 +68,21 @@ void test4(void)
   }
 }
 
+void test5(void)
+{
+  char const * combined = "test5_input"; /* contains 5 (larger) files test4_student_out1 etc */
+  unfuse( combined );
+  if ( 
+      compare_files( "test5-student-1.jpg", "test5-expected-1.jpg" ) +
+      compare_files( "test5-student-2.jpg", "test5-expected-2.jpg" ) +
+      compare_files( "test5-student-3.jpg", "test5-expected-3.jpg" ) +
+      compare_files( "test5-student-4.jpg", "test5-expected-4.jpg" ) == 0 ) {
+    printf( "+++Looks good\n" );
+  }
+}
 
 void (*pTests[])(void) = { 
-  test0, test1, test2, test3, test4
+  test0, test1, test2, test3, test4, test5
 
 };
 
