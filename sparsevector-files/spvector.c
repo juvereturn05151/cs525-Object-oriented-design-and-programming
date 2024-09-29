@@ -49,49 +49,50 @@ void print_elements(ConstElementNode_handle p_e)
 
 int insert_element(ElementNode_handle *p_e, int pos, int value)
 {
-    if(value == 0)
+    if (value == 0)
     {
         return 1;
     }
     
     ElementNode *element_node = (struct ElementNode *) malloc(sizeof(struct ElementNode));
-    if(element_node == NULL)
+    if (element_node == NULL)
     {
         return 1;
     }
 
     element_node->data = value;
     element_node->pos = pos;
+    element_node->next = NULL;
 
-    if((*p_e) == NULL)
+    if ((*p_e) == NULL)
     {
+        /*If list is empty, insert the first node*/
         (*p_e) = element_node;
     }
     else
     {
-        struct ElementNode *temp = (*p_e), *prev;
+        ElementNode *temp = (*p_e);
+        ElementNode *prev = NULL;
 
-        // Find the correct position in the list for the new node. 
-        // temp will point to an node after the point of insertion
-        // that's why we need prev
+        /*Traverse the list to find the correct position*/
         while (temp && (temp->pos < element_node->pos)) 
         {
-            prev = temp;       // save previous (singly linked)     
+            prev = temp;
             temp = temp->next;
         }
 
-        // If this number comes before the first one
-        // insert at head, modify head
-        if (temp == (*p_e)) {
+        /*Insert at the head of the list if needed*/
+        if (prev == NULL)
+        {
+            element_node->next = (*p_e);
             (*p_e) = element_node;
         }
         else
         {
-            prev->next = element_node; // Insert between current and prev node
+            prev->next = element_node;
+            element_node->next = temp;
         }
-
-        element_node->next = temp; 
-    }  
+    }
 
     return 0;
 }
@@ -202,14 +203,14 @@ ElementNode_handle add( ConstElementNode_handle p_e,ConstElementNode_handle p_j)
         }
       }
 
-    // Add remaining elements from p_e
+    /*Add remaining elements from p_e*/
     while (p_e) 
     {
         insert_element(&result_node, p_e->pos, p_e->data);
         p_e = p_e->next;
     }
 
-    // Add remaining elements from p_j
+    /*Add remaining elements from p_j*/
     while (p_j) 
     {
         insert_element(&result_node, p_j->pos, p_j->data);
@@ -221,7 +222,11 @@ ElementNode_handle add( ConstElementNode_handle p_e,ConstElementNode_handle p_j)
 
 void free_elements(ElementNode_handle p_e)
 {
-  struct ElementNode *temp = p_e->next; 
-  free(p_e);                   
-  p_e = temp;  
+    ElementNode *temp;
+    while (p_e)
+    {
+        temp = p_e;
+        p_e = p_e->next;
+        free(temp);
+    }
 }
