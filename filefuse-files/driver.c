@@ -11,6 +11,10 @@ void test1(void);
 void test2(void);
 void test3(void);
 void test4(void);
+void test5(void); /* files are 1M ,2M, 3M */
+void test6(void); /* one of the files is 1G */
+void test7(void);
+void test8(void);
 
 void test0(void)
 {
@@ -74,19 +78,41 @@ void test4(void)
 
 void test5(void)
 {
-  char const * combined = "test5_input"; /* contains 5 (larger) files test4_student_out1 etc */
-  unfuse( combined );
-  if ( 
-      compare_files( "test5-student-1.jpg", "test5-expected-1.jpg" ) +
-      compare_files( "test5-student-2.jpg", "test5-expected-2.jpg" ) +
-      compare_files( "test5-student-3.jpg", "test5-expected-3.jpg" ) +
-      compare_files( "test5-student-4.jpg", "test5-expected-4.jpg" ) == 0 ) {
+  char const * combined           = "test5_student_output";
+  char const * expected_combined  = "test5_expected_output"; 
+  char const * pp[] = { "test5_in1", "test5_in2", "test5_in3", "test5_in4",  "test5_in5", "test5_in6"  };
+  fuse( pp, sizeof(pp)/sizeof(*pp), combined );
+  if ( compare_files( combined, expected_combined ) == 0 ) {
     printf( "+++Looks good\n" );
   }
 }
 
+void test6(void) /* not used */
+{
+  char const * combined = "../../test6_input"; /* contains test6_student_out1, test6_student_out2 */
+  unfuse( combined );
+  if( 
+  compare_files( "test6_student_out1", "../../test6_expected_out1" ) +
+  compare_files( "test6_student_out2", "../../test6_expected_out2" ) == 0 ) {
+    printf( "+++Looks good\n" );
+  }
+
+}
+
+
+void test7(void)
+{
+  char const * pp[] = { "non_existing_file" };
+  fuse( pp, sizeof(pp)/sizeof(*pp), "combined" );
+}
+
+void test8(void)
+{
+  unfuse( "non_existing_file" );
+}
+
 void (*pTests[])(void) = { 
-  test0, test1, test2, test3, test4, test5
+  test0, test1, test2, test3, test4, test5, test6, test7, test8
 
 };
 

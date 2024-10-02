@@ -30,7 +30,8 @@ int fuse( char const ** filenames, int num_files, char const * output)
     char * buffer;
 
     out_file = fopen(output, "wb");  
-    if (out_file == NULL) {
+    if (out_file == NULL) 
+    {
         perror("Unable to open output file");
         return -1;
     }
@@ -38,7 +39,8 @@ int fuse( char const ** filenames, int num_files, char const * output)
     for (index = 0; index < num_files; index++) 
     {
         read_file = fopen(filenames[index], "rb");  
-        if (read_file == NULL) {
+        if (read_file == NULL) 
+        {
             perror("Unable to open the read file");
             fclose(out_file);
             return -1;
@@ -78,7 +80,8 @@ int unfuse( char const * filename )
     char* buffer;
 
     read_file = fopen(filename, "rb");  
-    if (read_file == NULL) {
+    if (read_file == NULL) 
+    {
         perror("Unable to open read_file");
         return -1;
     }
@@ -92,6 +95,7 @@ int unfuse( char const * filename )
         if (out_file == NULL) {
             /*NO more file to read*/
             free(out_fileName);
+            fclose(read_file);
             return 1;
         }
 
@@ -103,6 +107,7 @@ int unfuse( char const * filename )
         if(buffer == NULL)
         {
             perror("Unable to read the buffer");
+            free(out_fileName);
             free(buffer);
             fclose(out_file);
             fclose(read_file);
@@ -122,8 +127,21 @@ int unfuse( char const * filename )
 /*Applicable On Both Fuse And Unfuse Functions*/
 void read_and_write_data(char * buffer, int file_size, FILE* read_file, FILE* out_file)
 {
-    fread(buffer, sizeof(char), file_size, read_file);
-    fwrite(buffer, sizeof(char), file_size, out_file);
+    while(file_size > 0)
+    {
+        if(BUFFER_SIZE <= file_size)
+        {
+            fread(buffer, sizeof(char), BUFFER_SIZE, read_file);
+            fwrite(buffer, sizeof(char), BUFFER_SIZE, out_file);
+            file_size -= BUFFER_SIZE;
+        }
+        else
+        {
+            fread(buffer, sizeof(char), file_size, read_file);
+            fwrite(buffer, sizeof(char), file_size, out_file);
+            file_size = 0;
+        }
+    }
 }
 
 /*Fuse Functions*/
@@ -149,7 +167,8 @@ void get_filename(char* filename, FILE* read_file)
    {
         read_size = fread(&ch, sizeof(char), 1, read_file);
 
-        if (read_size == 0 || ch == '\0') {
+        if (read_size == 0 || ch == '\0') 
+        {
             filename[i] = '\0';
             break;
         }
