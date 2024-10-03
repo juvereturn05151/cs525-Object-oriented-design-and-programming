@@ -120,6 +120,11 @@ void delete_element( ElementNode_handle *p_e, int pos)
     return;
   }
 
+  if ((*p_e) == NULL) 
+  {
+      return;
+  }
+
   struct ElementNode *curr = (*p_e);
   struct ElementNode *prev = NULL;
    
@@ -144,6 +149,7 @@ void delete_element( ElementNode_handle *p_e, int pos)
   }
 
   free(curr);
+  curr = NULL;
 }
 
 /*
