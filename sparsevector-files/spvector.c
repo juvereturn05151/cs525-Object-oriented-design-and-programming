@@ -49,15 +49,23 @@ void print_elements(ConstElementNode_handle p_e)
 
 int insert_element(ElementNode_handle *p_e, int pos, int value)
 {
+    if(pos < 0)
+    {
+      perror("invalid position");
+      return -1;
+    }
+
     if (value == 0)
     {
+        delete_element(p_e, pos);
         return 1;
     }
     
     ElementNode *element_node = (struct ElementNode *) malloc(sizeof(struct ElementNode));
     if (element_node == NULL)
     {
-        return 1;
+        perror("invalid allocation");
+        return -1;
     }
 
     element_node->data = value;
@@ -81,6 +89,13 @@ int insert_element(ElementNode_handle *p_e, int pos, int value)
             temp = temp->next;
         }
 
+        if (temp && temp->pos == pos)
+        {
+            temp->data = value;
+            free(element_node);
+            return 0;
+        }
+
         /*Insert at the head of the list if needed*/
         if (prev == NULL)
         {
@@ -99,6 +114,12 @@ int insert_element(ElementNode_handle *p_e, int pos, int value)
 
 void delete_element( ElementNode_handle *p_e, int pos)
 {
+  if(pos < 0)
+  {
+    perror("invalid position");
+    return;
+  }
+
   struct ElementNode *curr = (*p_e);
   struct ElementNode *prev = NULL;
    
@@ -228,5 +249,6 @@ void free_elements(ElementNode_handle p_e)
         temp = p_e;
         p_e = p_e->next;
         free(temp);
+        temp = NULL;
     }
 }
