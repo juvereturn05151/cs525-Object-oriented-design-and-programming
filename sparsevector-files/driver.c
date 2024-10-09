@@ -270,11 +270,36 @@ void test12(void) {
   free_elements(pE1);
 }
 
+void test13(void)
+{
+  ElementNode_handle pE1 = 0;
+  int pos = 10000;
+  printf("\n==== TESTING FIND 2 ========\n");
+  // any number you want to set the random tree seed(easier for debug if have error)
+  srand(10);
+
+  // Generate and print 100 pairs random numbers between 1 and 100
+  for (int i = 0; i < 100; i++)
+  {
+    int random_number1 = rand() % 100 + 1;
+    printf("pos: %d\n", random_number1);
+    int random_number2 = rand() % 100 + 1;
+    printf("number: %d\n", random_number2);
+    insert_element(&pE1, random_number1, random_number2);
+  }
+  insert_element(&pE1, pos, 5);
+  print_elements(pE1);
+  printf("\n");
+
+  printf("value %i at position %i\n", get(pE1, pos), pos);
+  free_elements(pE1);
+}
+
 
 void (*pTests[])(void) = { 
 test0, test1, test2, test3, 
 test4, test5, test6, test7, test8, 
-test9, test10, test11, test12, 
+test9, test10, test11, test12, test13
 };
 
 int main(int argc, char *argv[] ) {
