@@ -64,36 +64,40 @@ namespace DigiPen {
             throw std::out_of_range("Empty List");
         }
 
-        e = (e + capacity - 1) % capacity;
-
-        int value = array[e];
-
-        size--;
-
-        if ( size==capacity/4 ) 
+        if ( size == capacity/4 ) 
         { // half the array
             reallocate(capacity/2);
         }
 
-        return value;
+        e = (e + capacity - 1) % capacity;
+        int taken_out_value = array[e];
+        size--;
+
+        return taken_out_value;
     }
 
     void Deque::Push_front(int val) {
-        if ( size == capacity ) { // double the array size, or change size=0 to size=1
+        if ( size == capacity )
+        { // double the array size, or change size=0 to size=1
             reallocate( capacity ? capacity*2 : 1 );
         }
 
         b = (b + capacity - 1) % capacity; 
         array[b] = val;
+        size++;
     }
 
-    int Deque::Pop_front() {
+    int Deque::Pop_front() 
+    {
         if ( size==capacity/4 ) { // half the array
             reallocate( capacity/2 );
         }
 
-        return 0;
-        //....
+        b = (b + capacity - 1) % capacity;
+        int taken_out_value = array[e];
+        size--;
+
+        return taken_out_value;
     }
 
     void Deque::swap( Deque& other )
