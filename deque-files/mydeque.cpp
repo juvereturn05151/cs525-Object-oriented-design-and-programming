@@ -54,6 +54,7 @@ namespace DigiPen {
 
         array[e] = val;
         e = (e + 1) % capacity;
+        size++;
     }
 
     int Deque::Pop_back() 
@@ -205,7 +206,11 @@ namespace DigiPen {
 
     // implemented
     std::ostream & operator<<(std::ostream & os, const Deque &d) {
-        for (int i=0;i<d.Size();++i) os << d[i] << " "; // this is public Deque::operator[], operator<< does not need to be friend
+        for (int i=0; i<d.Size(); ++i)
+        {
+            os << d[i] << " "; // this is public Deque::operator[], operator<< does not need to be friend
+        }
+         
         return os;
     }
 }
