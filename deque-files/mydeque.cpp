@@ -95,15 +95,14 @@ namespace DigiPen {
             throw std::out_of_range("Empty List");
         }
 
-        int taken_out_value = array[b];
-        b = (b + 1) % capacity;
-        size--;
-
-        // Only reallocate after size has been updated
         if (size > 0 && size == capacity / 4) 
         { 
             reallocate(capacity / 2);
         }
+
+        int taken_out_value = array[b];
+        b = (b + 1) % capacity;
+        size--;
 
         return taken_out_value;
     }
