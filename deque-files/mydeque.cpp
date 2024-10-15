@@ -76,12 +76,13 @@ namespace DigiPen {
         return taken_out_value;
     }
 
-    void Deque::Push_front(int val) {
+    void Deque::Push_front(int val) 
+    {
         if ( size == capacity )
         { // double the array size, or change size=0 to size=1
             reallocate( capacity ? capacity*2 : 1 );
         }
-
+                                     
         b = (b + capacity - 1) % capacity; 
         array[b] = val;
         size++;
@@ -89,13 +90,20 @@ namespace DigiPen {
 
     int Deque::Pop_front() 
     {
-        if ( size==capacity/4 ) { // half the array
-            reallocate( capacity/2 );
+        if (size == 0) 
+        {
+            throw std::out_of_range("Empty List");
         }
 
-        b = (b + capacity - 1) % capacity;
-        int taken_out_value = array[e];
+        int taken_out_value = array[b];
+        b = (b + 1) % capacity;
         size--;
+
+        // Only reallocate after size has been updated
+        if (size > 0 && size == capacity / 4) 
+        { 
+            reallocate(capacity / 2);
+        }
 
         return taken_out_value;
     }
@@ -136,12 +144,12 @@ namespace DigiPen {
 
     int& Deque::operator[](unsigned int pos)
     {
-        return array[pos];
+        return array[(b+pos) % capacity];
     }
 
     int Deque::operator[](unsigned int pos) const 
     {
-        return array[pos];
+        return array[(b+pos) % capacity];
     }
 
     // implemented
@@ -196,7 +204,7 @@ namespace DigiPen {
             int * new_array = new int [new_capacity];
             for ( int i=0;i<size;++i ) 
             {
-                new_array[i]=array[(b+i)%capacity]; // new b is 0
+                new_array[i] = array[(b+i) % capacity]; // new b is 0
             }
             //for (int i=size;i<capacity;++i) new_array[i]=0;
             delete [] array;
