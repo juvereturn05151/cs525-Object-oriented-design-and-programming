@@ -167,6 +167,15 @@ namespace DigiPen {
             reallocate( size + op2.size );
         }
 
+        int tempB = op2.b;
+        for (int i = 0; i < op2.size; ++i) 
+        {
+            array[(b + size + i) % capacity] = op2.array[tempB];
+            tempB = (tempB + 1) % op2.capacity; 
+        }
+
+        size += op2.size;
+
         return *this;
     }
 
