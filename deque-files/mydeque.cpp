@@ -28,7 +28,7 @@ namespace DigiPen {
 
     Deque::~Deque()
     {
-        
+        delete [] array;
     }
 
     Deque& Deque::operator=(Deque rhs)
@@ -125,12 +125,38 @@ namespace DigiPen {
 
     void Deque::swap( Deque& other )
     {
-        array[b] = other.b;
+        Deque copy = *this;
+        *this = other;
+        other = copy;
     }
 
     Deque& Deque::reverse()
     {
+        if (size <= 1) 
+        {
+            return *this;
+        }
+
+        int tempB = b;
+        int tempE = (b + size - 1) % capacity;
+
+        while (tempB < tempE) 
+        {
+            int previous_temp_b_value = array[tempB];
+            array[tempB] = array[tempE];
+            array[tempE] = previous_temp_b_value;
+
+            tempB = (tempB + 1) % capacity;
+            tempE = (tempE + capacity - 1) % capacity;
+        }
+
         return *this;
+    }
+
+    Deque Deque::operator~() const
+    {
+        Deque copy = *this;  
+        return copy.reverse();
     }
 
     // if current capacity is not enough for the combined:
@@ -146,15 +172,21 @@ namespace DigiPen {
 
     Deque Deque::operator+(const Deque& rhs) const
     {
-        DigiPen::Deque v;
-        v = rhs;
-        return v;
+        Deque result;
+        result.reallocate(size + rhs.size); 
+        result.size = size + rhs.size; 
 
-    }
+        for (int i = 0; i < size; ++i)
+        {
+            result.array[i] = array[(b + i) % capacity];
+        }
 
-    Deque Deque::operator~() const
-    {
-       return *this;
+        for (int i = 0; i < rhs.size; ++i)
+        {
+            result.array[size + i] = rhs.array[(rhs.b + i) % rhs.capacity];
+        }
+
+        return result; 
     }
 
     int& Deque::operator[](unsigned int pos)
