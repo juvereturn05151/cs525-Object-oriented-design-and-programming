@@ -33,7 +33,23 @@ namespace DigiPen {
 
     Deque& Deque::operator=(Deque rhs)
     {
-        array[b] = rhs.array[b];
+        if (this != &rhs)
+        {
+            capacity = rhs.Capacity();
+            size = rhs.size;
+            b = rhs.b;
+            e = rhs.e;
+
+            int * new_array = new int [capacity];
+            for ( int i=0;i<size;++i ) 
+            {
+                new_array[i] = rhs.array[(b+i) % capacity];
+            }
+
+            delete [] array;
+            array = new_array;
+        }
+
         return *this;
     }
 
