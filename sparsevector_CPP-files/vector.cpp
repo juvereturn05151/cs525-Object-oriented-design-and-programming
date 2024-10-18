@@ -1,14 +1,14 @@
-#include"vector.h";
+#include"vector.h"
 
 namespace CS225
 {
 
-SparseVector::SparseVector() : pHead(nullptr), dimension(0)
+SparseVector::SparseVector() : pHead(NULL), dimension(0)
 {
 
 }
 
-SparseVector::SparseVector( SparseVector const& rhs ) : pHead(nullptr), dimension(rhs.dimension) 
+SparseVector::SparseVector( SparseVector const& rhs ) : pHead(NULL), dimension(rhs.dimension) 
 {
     ElementNode* current = rhs.pHead;
     while (current) 
@@ -20,6 +20,7 @@ SparseVector::SparseVector( SparseVector const& rhs ) : pHead(nullptr), dimensio
 
 SparseVector& SparseVector::operator=(SparseVector rhs)
 {
+  this->dimension = rhs.dimension;
   return *this;
 }
 
@@ -36,7 +37,7 @@ SparseVector::~SparseVector()
 
 int SparseVector::Get(long pos) const
 {
-  return 0;
+  return pos;
 }
 
 void SparseVector::Insert(int val, long pos) 
@@ -44,7 +45,7 @@ void SparseVector::Insert(int val, long pos)
     ElementNode* newNode = new ElementNode;
     newNode->data = val;
     newNode->pos = pos;
-    newNode->next = nullptr;
+    newNode->next = NULL;
 
     if (!pHead || pos < pHead->pos) 
     {
@@ -56,7 +57,7 @@ void SparseVector::Insert(int val, long pos)
         ElementNode* current = pHead;
         while (current->next && current->next->pos < pos) 
         {
-            current = current->next;
+          current = current->next;
         }
 
         newNode->next = current->next;
@@ -66,17 +67,18 @@ void SparseVector::Insert(int val, long pos)
 
 void SparseVector::Delete(long pos)
 {
-
+ std::cout<<"pos: " << pos<<std::endl;
 }
 
 int& SparseVector::operator[](unsigned int pos)
 {
+  pHead->data = pos;
   return pHead->data;
 }
 
 int SparseVector::operator[](unsigned int pos) const
 {
-  return 0;
+  return pos;
 }
 
 SparseVector SparseVector::operator+(const SparseVector& rhs) const
@@ -95,6 +97,8 @@ SparseVector SparseVector::operator*(const SparseVector& rhs) const
 
 int SparseVector::operator*(const int rhs) const
 {
+  SparseVector sp;
+  sp.dimension = rhs;
   return 0;
 }
 
@@ -104,14 +108,15 @@ std::ostream& operator<<(std::ostream &out, const SparseVector &v)
   ElementNode* p_e = v.pHead; 
   while (p_e) { 
   for (i=last_pos+1;i<p_e->pos;++i) out << " " << "0"; 
-  out << " " << p_e->data; 
-  last_pos=p_e->pos; 
-  p_e = p_e->next; 
+    out << " " << p_e->data; 
+    last_pos=p_e->pos; 
+    p_e = p_e->next; 
   } 
-  for (i=last_pos+1;i<v.dimension;++i) {
-  out << " " << "0"; 
+  for (i=last_pos+1;i<v.dimension;++i)
+  {
+    out << " " << "0"; 
   }
- return out; 
+  return out; 
 }
 
 }

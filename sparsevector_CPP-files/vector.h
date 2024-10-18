@@ -46,7 +46,8 @@ namespace CS225
             long dimension;
     };
 
-    class ElementProxy {
+    class ElementProxy 
+    {
     public:
         ElementProxy(SparseVector& v, long pos) : v(v), pos(pos) {}
         
@@ -55,7 +56,6 @@ namespace CS225
             return v.Get(pos); 
         }
         
-
         ElementProxy& operator=(int value)
         {
             v.Insert(pos, value);  
@@ -67,7 +67,7 @@ namespace CS225
         long pos;        
     };
 
-};
+}
 
 
 #endif
