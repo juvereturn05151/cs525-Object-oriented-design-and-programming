@@ -15,7 +15,7 @@ SparseVector::SparseVector( SparseVector const& rhs )
 
 SparseVector& SparseVector::operator=(SparseVector rhs)
 {
-
+  return *this;
 }
 
 SparseVector::~SparseVector()
@@ -25,13 +25,14 @@ SparseVector::~SparseVector()
 
 int SparseVector::Get(long pos) const
 {
-
+  return 0;
 }
 
 void SparseVector::Insert(int val, long pos) 
 {
   if (val==0 ) { Delete(pos); return; } //you may change this line
-  if (pos>=dimension) {
+  if (pos>=dimension) 
+  {
     dimension=pos+1; // automatically set dimension (it effects   operator<< only)
   }
   // .....................................
@@ -42,14 +43,14 @@ void SparseVector::Delete(long pos)
 
 }
 
-int&  SparseVector::operator[](unsigned int pos)
+int& SparseVector::operator[](unsigned int pos)
 {
-
+  return pHead->data;
 }
 
-int   SparseVector::operator[](unsigned int pos) const
+int SparseVector::operator[](unsigned int pos) const
 {
-
+  return 0;
 }
 
 SparseVector SparseVector::operator+(const SparseVector& rhs) const
@@ -64,7 +65,7 @@ SparseVector SparseVector::operator*(const SparseVector& rhs) const
 
 int SparseVector::operator*(const int rhs) const
 {
-
+  return 0;
 }
 
 std::ostream& operator<<(std::ostream &out, const SparseVector &v)

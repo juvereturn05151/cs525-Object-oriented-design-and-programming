@@ -46,18 +46,28 @@ namespace CS225
             long dimension;
     };
 
+    class ElementProxy {
+    public:
+        ElementProxy(SparseVector& v, long pos) : v(v), pos(pos) {}
+        
+        operator int() const 
+        {
+            return v.Get(pos); 
+        }
+        
+
+        ElementProxy& operator=(int value)
+        {
+            v.Insert(pos, value);  
+            return *this;
+        }
+
+    private:
+        SparseVector &v;  
+        long pos;        
+    };
 
 };
- /* uncomment when done with basic class functionality and ready to implement Proxy
- class ElementProxy {
-  public: 
-    ElementProxy(SparseVector& v, long pos);
-    operator int() const; 
-    // .......
-  private:
-    SparseVector &v;
-    long pos;
- }; 
-*/ 
+
 
 #endif
