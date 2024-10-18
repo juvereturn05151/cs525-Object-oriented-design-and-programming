@@ -3,14 +3,19 @@
 namespace CS225
 {
 
-SparseVector::SparseVector()
+SparseVector::SparseVector() : pHead(nullptr), dimension(0)
 {
 
 }
 
-SparseVector::SparseVector( SparseVector const& rhs )
+SparseVector::SparseVector( SparseVector const& rhs ) : pHead(nullptr), dimension(rhs.dimension) 
 {
-
+    ElementNode* current = rhs.pHead;
+    while (current) 
+    {
+        Insert(current->data, current->pos);
+        current = current->next;
+    }
 }
 
 SparseVector& SparseVector::operator=(SparseVector rhs)
@@ -20,7 +25,13 @@ SparseVector& SparseVector::operator=(SparseVector rhs)
 
 SparseVector::~SparseVector()
 {
-  
+  ElementNode* current = pHead;
+  while (current) 
+  {
+    ElementNode* toDelete = current;
+    current = current->next;
+    delete toDelete;
+  }
 }
 
 int SparseVector::Get(long pos) const
@@ -30,12 +41,27 @@ int SparseVector::Get(long pos) const
 
 void SparseVector::Insert(int val, long pos) 
 {
-  if (val==0 ) { Delete(pos); return; } //you may change this line
-  if (pos>=dimension) 
-  {
-    dimension=pos+1; // automatically set dimension (it effects   operator<< only)
-  }
-  // .....................................
+    ElementNode* newNode = new ElementNode;
+    newNode->data = val;
+    newNode->pos = pos;
+    newNode->next = nullptr;
+
+    if (!pHead || pos < pHead->pos) 
+    {
+        newNode->next = pHead;
+        pHead = newNode;
+    } 
+    else 
+    {
+        ElementNode* current = pHead;
+        while (current->next && current->next->pos < pos) 
+        {
+            current = current->next;
+        }
+
+        newNode->next = current->next;
+        current->next = newNode;
+    }
  }
 
 void SparseVector::Delete(long pos)
@@ -55,12 +81,16 @@ int SparseVector::operator[](unsigned int pos) const
 
 SparseVector SparseVector::operator+(const SparseVector& rhs) const
 {
-
+  SparseVector sp;
+  sp.dimension = rhs.dimension;
+  return  sp;
 }
 
 SparseVector SparseVector::operator*(const SparseVector& rhs) const
 {
-
+  SparseVector sp;
+  sp.dimension = rhs.dimension;
+  return  sp;
 }
 
 int SparseVector::operator*(const int rhs) const
