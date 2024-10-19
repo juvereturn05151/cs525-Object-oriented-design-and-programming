@@ -134,23 +134,77 @@ int SparseVector::operator[](unsigned int pos) const
 
 SparseVector SparseVector::operator+(const SparseVector& rhs) const
 {
-  SparseVector sp;
-  sp.dimension = rhs.dimension;
-  return  sp;
+  SparseVector result;
+  ElementNode* current = this->pHead;
+  ElementNode* currentRhs = rhs.pHead;
+
+  while (current) 
+  {
+    result.Insert(current->data, current->pos);
+    current = current->next;
+  }
+
+  while (currentRhs) 
+  {
+    int currentValue = result.Get(currentRhs->pos);
+    result.Insert(currentValue + currentRhs->data, currentRhs->pos);
+    currentRhs = currentRhs->next;
+  }
+
+  if(this->dimension >= rhs.dimension)
+  {
+    result.dimension = this->dimension;
+  }
+  else
+  {
+    result.dimension = rhs.dimension;
+  }
+
+  return  result;
 }
 
 SparseVector SparseVector::operator*(const SparseVector& rhs) const
 {
-  SparseVector sp;
-  sp.dimension = rhs.dimension;
-  return  sp;
+  SparseVector result;
+  ElementNode* current = this->pHead;
+
+  while (current) 
+  {
+    int rhsValue = rhs.Get(current->pos);
+
+    if (rhsValue != 0) 
+    {
+        result.Insert(current->data * rhsValue, current->pos);
+    }
+
+    current = current->next;
+  }
+
+  if(this->dimension >= rhs.dimension)
+  {
+    result.dimension = this->dimension;
+  }
+  else
+  {
+    result.dimension = rhs.dimension;
+  }
+
+  return result;
 }
 
-int SparseVector::operator*(const int rhs) const
+SparseVector SparseVector::operator*(int rhs) const
 {
-  SparseVector sp;
-  sp.dimension = rhs;
-  return 0;
+  SparseVector result;
+  ElementNode* current = this->pHead;
+
+  while (current)
+  {
+    result.Insert(current->data * rhs, current->pos);
+    current = current->next;
+  }
+
+  result.dimension = this->dimension;
+  return result;
 }
 
 std::ostream& operator<<(std::ostream &out, const SparseVector &v)
@@ -182,6 +236,11 @@ std::ostream& operator<<(std::ostream &out, const SparseVector &v)
     }
 
   return out; 
+}
+
+SparseVector operator*(int value, const SparseVector& rhs)
+{
+  return rhs * value;
 }
 
 //Element Proxy

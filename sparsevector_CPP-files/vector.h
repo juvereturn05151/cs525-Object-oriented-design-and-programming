@@ -41,7 +41,6 @@ namespace CS225 {
         int operator[](unsigned int pos) const;
         SparseVector operator+(const SparseVector& rhs) const;
         SparseVector operator*(const SparseVector& rhs) const;
-        int operator*(const int rhs) const;
         void PrintRaw() const { //used for grading
             ElementNode* curr = pHead;
             std::cout << "Raw vector: ";
@@ -52,6 +51,7 @@ namespace CS225 {
             std::cout << std::endl;
         }
         friend std::ostream& operator<<(std::ostream& os, const SparseVector& s);
+        friend SparseVector operator*(int value, const SparseVector& rhs);
 
     private:
         ElementNode* pHead;
