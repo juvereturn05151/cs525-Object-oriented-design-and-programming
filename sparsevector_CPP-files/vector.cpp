@@ -10,17 +10,42 @@ SparseVector::SparseVector() : pHead(NULL), dimension(0)
 
 SparseVector::SparseVector( SparseVector const& rhs ) : pHead(NULL), dimension(rhs.dimension) 
 {
-    ElementNode* current = rhs.pHead;
-    while (current) 
-    {
-        Insert(current->data, current->pos);
-        current = current->next;
+    if (rhs.pHead) {
+        pHead = new ElementNode();
+        pHead->data = rhs.pHead->data;
+        pHead->pos = rhs.pHead->pos;
+        pHead->next = NULL;
+        ElementNode* currentNew = pHead;
+        ElementNode* currentOld = rhs.pHead->next;
+
+        while (currentOld) {
+            Insert(currentOld->data, currentOld->pos);
+            currentNew = currentNew->next;
+            currentOld = currentOld->next;
+        }
     }
 }
 
 SparseVector& SparseVector::operator=(SparseVector rhs)
 {
-  this->dimension = rhs.dimension;
+  if (this != &rhs) {
+        // Clear existing nodes
+        ElementNode* current = this->pHead;
+        while (current) {
+            ElementNode* toDelete = current;
+            current = current->next;
+            delete toDelete;
+        }
+        this->pHead = NULL;
+        // Copy from rhs
+        ElementNode* currentRhs = rhs.pHead;
+        while (currentRhs) {
+            this->Insert(currentRhs->data, currentRhs->pos);
+            currentRhs = currentRhs->next;
+        }
+        
+        this->dimension = rhs.dimension;
+    }
   return *this;
 }
 
@@ -71,6 +96,7 @@ void SparseVector::Insert(int val, long pos)
 
     if (pHead == NULL || pos < pHead->pos) 
     {
+        newNode->next = pHead;
         pHead = newNode;
     } 
     else 
@@ -169,33 +195,18 @@ SparseVector SparseVector::operator+(const SparseVector& rhs) const
   return  result;
 }
 
-SparseVector SparseVector::operator*(const SparseVector& rhs) const
+int SparseVector::operator*(const SparseVector& rhs) const
 {
-  SparseVector result;
+  int sum = 0;
   ElementNode* current = this->pHead;
 
-  while (current) 
-  {
+  while (current) {
     int rhsValue = rhs.Get(current->pos);
-
-    if (rhsValue != 0) 
-    {
-        result.Insert(current->data * rhsValue, current->pos);
-    }
-
+    sum += current->data * rhsValue;
     current = current->next;
   }
 
-  if(this->dimension >= rhs.dimension)
-  {
-    result.dimension = this->dimension;
-  }
-  else
-  {
-    result.dimension = rhs.dimension;
-  }
-
-  return result;
+  return sum;
 }
 
 SparseVector SparseVector::operator*(int rhs) const

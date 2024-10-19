@@ -46,8 +46,8 @@ namespace CS225 {
         int operator[](unsigned int pos) const;
         SparseVector operator+(const SparseVector& rhs) const;
         SparseVector operator+(const long val) const;
-        SparseVector operator*(const SparseVector& rhs) const;
-        SparseVector operator*(int rhs) const;
+        SparseVector operator*(int rhs) const; 
+        int operator*(const SparseVector& rhs) const;
 
         void PrintRaw() const { //used for grading
             ElementNode* curr = pHead;
