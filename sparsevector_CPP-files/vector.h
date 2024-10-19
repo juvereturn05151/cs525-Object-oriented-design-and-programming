@@ -14,6 +14,9 @@ namespace CS225 {
 
         operator int() const;
         ElementProxy& operator=(int value);
+        ElementProxy& operator+=(int value);
+        ElementProxy& operator-=(int value);
+        ElementProxy& operator=(ElementProxy proxy);
 
     private:
         SparseVector& v;
@@ -34,13 +37,18 @@ namespace CS225 {
         SparseVector(SparseVector const& rhs);
         SparseVector& operator=(SparseVector rhs);
         ~SparseVector();
+
         int Get(long pos) const;
         void Insert(int val, long pos);
         void Delete(long pos);
+
         ElementProxy operator[](long pos);
         int operator[](unsigned int pos) const;
         SparseVector operator+(const SparseVector& rhs) const;
+        SparseVector operator+(const long val) const;
         SparseVector operator*(const SparseVector& rhs) const;
+        SparseVector operator*(int rhs) const;
+
         void PrintRaw() const { //used for grading
             ElementNode* curr = pHead;
             std::cout << "Raw vector: ";
@@ -50,6 +58,7 @@ namespace CS225 {
             }
             std::cout << std::endl;
         }
+
         friend std::ostream& operator<<(std::ostream& os, const SparseVector& s);
         friend SparseVector operator*(int value, const SparseVector& rhs);
 

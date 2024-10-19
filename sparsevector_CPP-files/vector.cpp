@@ -207,6 +207,8 @@ SparseVector SparseVector::operator*(int rhs) const
   return result;
 }
 
+//Friend Functions
+
 std::ostream& operator<<(std::ostream &out, const SparseVector &v)
 { 
   int i,last_pos = -1; 
@@ -255,6 +257,24 @@ ElementProxy::operator int() const
 ElementProxy& ElementProxy::operator=(int value) 
 {
   v.Insert(value, pos);
+  return *this; 
+}
+
+ElementProxy& ElementProxy::operator=(ElementProxy proxy) 
+{
+  v.Insert(proxy.v.Get(pos), pos);
+  return *this; 
+}
+
+ElementProxy& ElementProxy::operator+=(int value)
+{
+  v.Insert(v.Get(pos) + value, pos);
+  return *this; 
+}
+
+ElementProxy& ElementProxy::operator-=(int value)
+{
+  v.Insert(v.Get(pos) - value, pos);
   return *this; 
 }
 
