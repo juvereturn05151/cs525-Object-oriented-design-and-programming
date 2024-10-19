@@ -268,7 +268,7 @@ ElementProxy::ElementProxy(SparseVector& v, long pos) : v(v), pos(pos) {}
 
 ElementProxy::operator int() const 
 {
-    return v.Get(pos);
+  return v.Get(pos);
 }
 
 ElementProxy& ElementProxy::operator=(int value) 
@@ -279,7 +279,7 @@ ElementProxy& ElementProxy::operator=(int value)
 
 ElementProxy& ElementProxy::operator=(ElementProxy proxy) 
 {
-  v.Insert(proxy.v.Get(pos), pos);
+  v.Insert(proxy.v.Get(proxy.pos), pos);
   return *this; 
 }
 
