@@ -10,7 +10,8 @@ SparseVector::SparseVector() : pHead(NULL), dimension(0)
 
 SparseVector::SparseVector( SparseVector const& rhs ) : pHead(NULL), dimension(rhs.dimension) 
 {
-    if (rhs.pHead) {
+    if (rhs.pHead != NULL) 
+    {
         pHead = new ElementNode();
         pHead->data = rhs.pHead->data;
         pHead->pos = rhs.pHead->pos;
@@ -18,7 +19,8 @@ SparseVector::SparseVector( SparseVector const& rhs ) : pHead(NULL), dimension(r
         ElementNode* currentNew = pHead;
         ElementNode* currentOld = rhs.pHead->next;
 
-        while (currentOld) {
+        while (currentOld != NULL) 
+        {
             Insert(currentOld->data, currentOld->pos);
             currentNew = currentNew->next;
             currentOld = currentOld->next;
@@ -28,27 +30,33 @@ SparseVector::SparseVector( SparseVector const& rhs ) : pHead(NULL), dimension(r
 
 SparseVector& SparseVector::operator=(SparseVector rhs)
 {
-  if (this != &rhs) {
-        // Clear existing nodes
-        ElementNode* current = this->pHead;
-        while (current) {
-            ElementNode* toDelete = current;
-            current = current->next;
-            delete toDelete;
-        }
-        this->pHead = NULL;
-        // Copy from rhs
-        ElementNode* currentRhs = rhs.pHead;
-        while (currentRhs) {
-            this->Insert(currentRhs->data, currentRhs->pos);
-            currentRhs = currentRhs->next;
-        }
-        
-        this->dimension = rhs.dimension;
+  if (this != &rhs) 
+  {
+    // Clear old stuff
+    ElementNode* current = this->pHead;
+    while (current) 
+    {
+      ElementNode* toDelete = current;
+      current = current->next;
+      delete toDelete;
     }
+    this->pHead = NULL;
+
+    // Copy from the right hand side
+    ElementNode* currentRhs = rhs.pHead;
+    while (currentRhs) 
+    {
+      this->Insert(currentRhs->data, currentRhs->pos);
+      currentRhs = currentRhs->next;
+    }
+        
+    this->dimension = rhs.dimension;
+  }
+
   return *this;
 }
 
+//Free all modes
 SparseVector::~SparseVector()
 {
   ElementNode* current = pHead;
@@ -60,6 +68,7 @@ SparseVector::~SparseVector()
   }
 }
 
+//ElementProxy will call this on operator int()
 int SparseVector::Get(long pos) const
 {
   ElementNode* curr = pHead; 
@@ -104,14 +113,14 @@ void SparseVector::Insert(int val, long pos)
         ElementNode *temp = pHead;
         ElementNode *prev = NULL;
 
-        /*Traverse the list to find the correct position*/
+        //Traverse the list to find the correct position
         while (temp && (temp->pos < newNode->pos))
         {
             prev = temp;
             temp = temp->next;
         }
 
-
+        //If the position is already existed, just replace the position
         if (temp && temp->pos == pos)
         {
             temp->data = val;
@@ -119,7 +128,7 @@ void SparseVector::Insert(int val, long pos)
             return;
         }
         
-        /*Insert at the head of the list if needed*/
+        //Insert at the head of the list if needed
         if (prev == NULL)
         {
             newNode->next = pHead;
@@ -135,23 +144,26 @@ void SparseVector::Insert(int val, long pos)
 
 void SparseVector::Delete(long pos)
 {
-  if (pHead && pHead->pos == pos) {
-        ElementNode* temp = pHead;
-        pHead = pHead->next;
-        delete temp;
-        return;
-    }
+  if (pHead && pHead->pos == pos) 
+  {
+    ElementNode* temp = pHead;
+    pHead = pHead->next;
+    delete temp;
+    return;
+  }
 
-    ElementNode* curr = pHead;
-    while (curr && curr->next) {
-        if (curr->next->pos == pos) {
-            ElementNode* temp = curr->next;
-            curr->next = curr->next->next;
-            delete temp;
-            return;
-        }
-        curr = curr->next;
+  ElementNode* curr = pHead;
+  while (curr && curr->next)
+  {
+    if (curr->next->pos == pos) 
+    {
+      ElementNode* temp = curr->next;
+      curr->next = curr->next->next;
+      delete temp;
+      return;
     }
+    curr = curr->next;
+  }
 }
 
 ElementProxy SparseVector::operator[](long pos)
@@ -231,22 +243,23 @@ std::ostream& operator<<(std::ostream &out, const SparseVector &v)
   int i,last_pos = -1; 
   ElementNode* p_e = v.pHead; 
   // Loop through the linked list and print each element
-    while (p_e) {
-        // Print zeros for positions not covered by the linked list
-        for (i = last_pos + 1; i < p_e->pos; ++i)
-        {
-            out << " 0";
-        }
-
-        // Print the data for the current position
-        out << " " << p_e->data;
-        
-        // Update last_pos to the current position
-        last_pos = p_e->pos;
-
-        // Move to the next element in the list
-        p_e = p_e->next;
+  while (p_e)
+  {
+    // Print zeros for positions not covered by the linked list
+    for (i = last_pos + 1; i < p_e->pos; ++i)
+    {
+      out << " 0";
     }
+
+    // Print the data for the current position
+    out << " " << p_e->data;
+        
+    // Update last_pos to the current position
+    last_pos = p_e->pos;
+
+    // Move to the next element in the list
+    p_e = p_e->next;
+  }
 
     // Print remaining zeros after the last element in the linked list
     for (i = last_pos + 1; i < v.dimension; ++i) 
