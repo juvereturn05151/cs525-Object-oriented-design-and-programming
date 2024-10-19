@@ -53,6 +53,12 @@ int SparseVector::Get(long pos) const
 
 void SparseVector::Insert(int val, long pos) 
 {
+    if(val <= 0)
+    {
+      Delete(pos);
+      return;
+    }
+
     if (pos >= dimension) 
     {
       dimension = pos + 1;
