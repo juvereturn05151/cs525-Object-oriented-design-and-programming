@@ -92,7 +92,8 @@ void test6() {
     std::cout << "v3 = " << v3 << std::endl;
 }
 
-void test7() {
+void test7() 
+{
     CS225::SparseVector v1,v2,v3;
     for (int i=0;i<10;++i) v1[2*i]=i+1;
     for (int i=0;i<5;++i) v2[5*i]=i+10;
@@ -100,7 +101,7 @@ void test7() {
 
     std::cout << "v1 = " << v1 << std::endl;
     std::cout << "v2 = " << v2 << std::endl;
-  /*std::cout << "v3 = " << v3 << std::endl;
+    std::cout << "v3 = " << v3 << std::endl;
     std::cout << "v1*10 = " << v1*10 << std::endl;
     std::cout << "10*v2 = " << 10*v2 << std::endl;
     std::cout << "0*v3 = "; 
@@ -108,7 +109,7 @@ void test7() {
     v4.PrintRaw();
     std::cout << "v1 = " << v1 << std::endl;
     std::cout << "v2 = " << v2 << std::endl;
-    std::cout << "v3 = " << v3 << std::endl;*/
+    std::cout << "v3 = " << v3 << std::endl;
 }
 
 void test8() {
@@ -119,7 +120,7 @@ void test8() {
 
     std::cout << "v1*10+v3*(-1) = " << v1*10+v3*(-1) << std::endl;
 
-   // std::cout << "10*v1+(-1)*v3 = " << 10*v1+(-1)*v3 << std::endl;
+    std::cout << "10*v1+(-1)*v3 = " << 10*v1+(-1)*v3 << std::endl;
 }
 
 void test9() {
@@ -173,7 +174,7 @@ void test11() {
     std::cout << "v = " << v << std::endl;
     v.PrintRaw(); std::cout << std::endl;
 
-    int temp=v[5];
+    int temp = v[5];
     std::cout << "v[5]=" << temp << std::endl;
     v.PrintRaw(); std::cout << std::endl;
 
@@ -241,20 +242,20 @@ void test15() {
     for (int i=0;i<6;++i)  v[i]=i+1;
 
     const CS225::SparseVector v_copy(v);
-   /* std::cout << "v_copy = " << v_copy << std::endl;
+    std::cout << "v_copy = " << v_copy << std::endl;
     std::cout << "v_copy*v_copy = " << v_copy*v_copy << std::endl;
 
-    std::cout << "10*v_copy = " << 10*v_copy << std::endl;*/
+    std::cout << "10*v_copy = " << 10*v_copy << std::endl;
 }
 
 void test16() {
-   /* CS225::SparseVector v;
+    CS225::SparseVector v;
     for (int i=0;i<6;++i)  v[i]=i+1;
     std::cout << "v = " << v << std::endl;
 
     CS225::SparseVector v_1(0*v);
     std::cout << "CS225::SparseVector v_1(0*v);\n";
-    v_1.PrintRaw();*/
+    v_1.PrintRaw();
 }
 
 void test17() {
@@ -266,9 +267,9 @@ void test17() {
 
     std::cout << "v_copy[4] = " << v_copy[4] << std::endl;
 
-    /*const CS225::SparseVector v_1(0*v_copy);
+    const CS225::SparseVector v_1(0*v_copy);
     std::cout << "const CS225::SparseVector v_1(0*v_copy);\n";
-    v_1.PrintRaw();*/
+    v_1.PrintRaw();
 }
 
 void test18();
