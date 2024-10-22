@@ -46,11 +46,11 @@ SparseVector& SparseVector::operator=(SparseVector rhs)
     ElementNode* currentRhs = rhs.pHead;
     while (currentRhs) 
     {
-      this->Insert(currentRhs->data, currentRhs->pos);
+      Insert(currentRhs->data, currentRhs->pos);
       currentRhs = currentRhs->next;
     }
         
-    this->dimension = rhs.dimension;
+    dimension = rhs.dimension;
   }
 
   return *this;
@@ -173,7 +173,7 @@ ElementProxy SparseVector::operator[](long pos)
 
 int SparseVector::operator[](unsigned int pos) const
 {
-    return Get(pos); 
+  return Get(pos); 
 }
 
 SparseVector SparseVector::operator+(const SparseVector& rhs) const
