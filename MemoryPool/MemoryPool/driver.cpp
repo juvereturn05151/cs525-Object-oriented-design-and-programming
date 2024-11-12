@@ -25,13 +25,13 @@ void test0(void)
     
     C* b[size / 2];
 
-    // Should reuse freed memory
+    //Should reuse freed memory
     for (int i = 0; i < size / 2; ++i) 
     {
         b[i] = new C(i + 200); 
     }
 
-    // Cleanup remaining allocations
+    //Cleanup remaining allocations
     for (int i = 1; i < size; i += 2) 
     {
         delete a[i];

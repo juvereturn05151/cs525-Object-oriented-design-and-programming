@@ -28,11 +28,12 @@ Create a free block according to the i * _objectSize
 template <typename T>
 void MemoryPool<T>::AllocateChunk()
 {
-	void* newChunk = malloc(objectSize * allocatedAmount);
+	void* newChunk = (void*)malloc(objectSize * allocatedAmount);
 	allocatedChunks.push_back(newChunk);
 
 	for (size_t i = 0; i < allocatedAmount; ++i)
 	{
+		//Need to cast to char* to make sure that it's 1 byte, then we move the pointer by i * objectSize
 		void* memoryBlock = static_cast<char*>(newChunk) + (i * objectSize);
 		freeMemories.push(memoryBlock);
 	}
