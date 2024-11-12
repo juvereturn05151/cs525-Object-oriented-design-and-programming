@@ -44,20 +44,3 @@ int main()
 	return 0;
 }
 
-/*Pseudo Code
-* Memory Pool should be a static class since it only instantiates once.
-Class Memory Pool
-private:
-Member:
- - a vector to store a chunk of memory allocated
- - a vector (or stack) to store a freed memory
-public:
-Constructor;
-Destructor;
-Allocate;
-
-Class C:
-Member:
-static Memorypool
-
-*/

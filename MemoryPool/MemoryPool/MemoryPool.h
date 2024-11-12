@@ -5,10 +5,9 @@ E-mail: juvereturn@gmail.com
 Brief: a class that support memory pool.
 Preallocate extra memory for future dynamic allocations:
 */
-
-#include<vector>
-#include<stack>
-
+#include <vector>
+#include <stack>
+#include <cstddef>
 template <typename T>
 class MemoryPool
 {

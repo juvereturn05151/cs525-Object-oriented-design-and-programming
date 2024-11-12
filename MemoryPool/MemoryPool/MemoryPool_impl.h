@@ -27,7 +27,7 @@ Create a free block according to the i * _objectSize
 template <typename T>
 void MemoryPool<T>::AllocateChunk()
 {
-	void* newChunk = std::malloc(objectSize * allocatedAmount);
+	void* newChunk = malloc(objectSize * allocatedAmount);
 	allocatedChunks.push_back(newChunk);
 
 	for (size_t i = 0; i < allocatedAmount; ++i)
