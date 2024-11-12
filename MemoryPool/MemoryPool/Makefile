@@ -1,9 +1,8 @@
 PRG=gnu.exe
 
-
 GCC=g++
+GCCFLAGS=-O2 -Wall -Wextra -std=c++11 -pedantic -Weffc++ -Wold-style-cast -Woverloaded-virtual -Wsign-promo  -Wctor-dtor-privacy -Wnon-virtual-dtor -Wreorder
 
-GCCFLAGS=-ansi -Wall -Wextra -pedantic -Wmissing-prototypes -Wdeclaration-after-statement -O3
 
 VALGRIND_OPTIONS=-q --leak-check=full
 DIFF_OPTIONS=-y --strip-trailing-cr --suppress-common-lines
@@ -15,11 +14,12 @@ else
 CYGWIN=-Wl,--enable-auto-import
 endif
 
-OBJECTS0= MemoryPool.h
+OBJECTS0= MemoryPool.h 
+OBJECTS1= C.cpp 
 DRIVER0=driver.cpp
 
 gcc0:
-	$(GCC) -o $(PRG) $(DRIVER0) $(OBJECTS0) $(GCCFLAGS) 
+	$(GCC) -o $(PRG) $(DRIVER0) $(OBJECTS0) $(OBJECTS1) $(GCCFLAGS) 
 0 1:
 	echo "running test$@"
 	@echo "should run in less than 200 ms"

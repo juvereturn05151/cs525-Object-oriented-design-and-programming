@@ -1,4 +1,5 @@
 #include"MemoryPool.h"
+#include<stdlib.h>
 
 template <typename T>
 MemoryPool<T>::MemoryPool(size_t _allocatedAmount) : objectSize(sizeof(T)), allocatedAmount(_allocatedAmount)
@@ -16,7 +17,7 @@ MemoryPool<T>::~MemoryPool()
 
 	for (it = allocatedChunks.begin(); it != allocatedChunks.end(); ++it)
 	{
-		std::free(*it);
+		free(*it);
 	}
 }
 
