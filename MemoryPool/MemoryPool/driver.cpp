@@ -2,50 +2,51 @@
 #include <stdio.h>
 
 void test0(void);
+void test1(void);
+void test2(void);
 
 void test0(void) 
 {
     int const size = 100;
-    C* a[size];
-
-    //Case 1: Allocate objects
-    for (int i = 0; i < size; ++i) 
+    C* a[ size ];
+    for ( int i=0; i<size; ++i ) 
     {
-        a[i] = new C(i);
-    }
-
-    //Case 2: Allocate an additional object beyond initial size
-    C* p = new C(100);
-
-    //Case 3: Reuse freed blocks
-    for (int i = 0; i < size; i += 2) 
-    {
-        delete a[i]; 
-    }
-    
-    C* b[size / 2];
-
-    //Should reuse freed memory
-    for (int i = 0; i < size / 2; ++i) 
-    {
-        b[i] = new C(i + 200); 
-    }
-
-    //Cleanup remaining allocations
-    for (int i = 1; i < size; i += 2) 
-    {
-        delete a[i];
-    }
-
-    delete p;
-    
-    for (int i = 0; i < size / 2; ++i) 
-    {
-        delete b[i];
+        a[i] = new C( i );
     }
 }
 
-void (*pTests[])() = { test0 };
+void test1(void)
+{
+    int const size = 100;
+    C* a[ size ];
+    for ( int i=0; i<size; ++i ) 
+    {
+        a[i] = new C( i );
+    }
+    //and one more 
+    C* p = new C(100);
+}
+
+void test2(void)
+{
+    int const size = 100;
+    C* a[ size ];
+    for ( int i=0; i<size; ++i ) 
+    {
+        a[i] = new C( i );
+    }
+    for ( int i=0; i<size; i+=2 ) 
+    {
+        delete a[i];
+    }
+    C* b[ size/2 ];
+    for ( int i=0; i<size/2; ++i ) 
+    {
+        b[i] = new C( i ); // uses blocks that where freed above
+    }
+}
+
+void (*pTests[])() = { test0, test1, test2 };
 
 #include <stdio.h> /* sscanf */
 int main (int argc, char ** argv) {
