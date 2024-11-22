@@ -12,6 +12,11 @@ Array::Array(int * array, unsigned int _size, const DigiPen::ElementFactory* _pE
 	}
 }
 
+int Array::Get(unsigned int pos) const
+{
+	return data[pos]->Get();			
+}
+
 void Array::Set( int id, int pos, int value ) 
 { 
 	DeepCopy(); // modifying the data - need our own copy

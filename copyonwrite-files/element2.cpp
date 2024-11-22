@@ -33,6 +33,11 @@ void Element2::Set(int new_val)
 	*p_val = new_val; 
 }
 
+AbstractElement* Element2::Clone(int val) const
+{ 
+  return new Element2(val); 
+}
+
 Element2::~Element2() 
 {
 	delete p_val;
