@@ -24,6 +24,11 @@ Element2& DigiPen::Element2::operator=(const Element2& rhs)
   return *this;
 }
 
+int Element2::GetId() const
+{
+  return 2;
+}
+
 int Element2::Get() const
 {
 	return *p_val;

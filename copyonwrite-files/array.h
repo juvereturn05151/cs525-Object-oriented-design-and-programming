@@ -18,7 +18,7 @@ namespace DigiPen
 			Array(const Array& rhs);
 			Array& operator=(const Array& other);
 			~Array();
-
+			
 			int Get(unsigned int pos) const;
 			void Set(int id, int pos, int value);
 			void Print() const;

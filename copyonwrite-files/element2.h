@@ -15,6 +15,7 @@ namespace DigiPen
       Element2(int _val);
       Element2(const Element2& rhs);
       Element2& operator=(const Element2& rhs);
+      int GetId() const;
       int Get() const;
       void Set(int new_val);
       void Print() const;

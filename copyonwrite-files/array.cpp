@@ -57,18 +57,18 @@ void Array::DeepCopy()
 	// Perform deep copy only if reference count is greater than 1 
 	if (*refCount > 1) 
 	{ // Decrement the reference count of the current shared data 
-	--(*refCount); 
-	// Create a new array to hold the copied elements 
-	AbstractElement** newData = new AbstractElement*[size];
-	 for (unsigned int i = 0; i < size; ++i) 
-	 { // Ensure a deep copy of each element 
-	 newData[i] = pElementFactory->MakeElement(1, data[i]->Get()); 
-	 } 
-	 // No need to delete elements here since they are still shared with other instances 
-	 // Update the data pointer and reference count 
-	 data = newData; 
-	 refCount = new int(1); 
-	 // Initialize a new reference count for the new data 
+		--(*refCount); 
+		// Create a new array to hold the copied elements 
+		AbstractElement** newData = new AbstractElement*[size];
+		for (unsigned int i = 0; i < size; ++i) 
+		{ // Ensure a deep copy of each element 
+			newData[i] = pElementFactory->MakeElement(data[i]->GetId(), data[i]->Get()); 
+		} 
+		// No need to delete elements here since they are still shared with other instances 
+		// Update the data pointer and reference count 
+		data = newData; 
+		// Initialize a new reference count for the new data 
+		refCount = new int(1); 
 	 }
 }
 

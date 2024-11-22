@@ -15,6 +15,7 @@ namespace DigiPen
         virtual ~AbstractElement() {}
 
         // pure virtual methods to be implemented by derived classes
+        virtual int GetId() const = 0;
         virtual int Get() const = 0;
         virtual void Set(int new_val) = 0;
         virtual void Print() const = 0;

@@ -9,6 +9,11 @@ Element1::Element1(int _val) : val(_val)
   IncrementElement();	
 }
 
+int Element1::GetId() const
+{
+  return 1;
+}
+
 int Element1::Get() const { return val; }
 
 void Element1::Set(int new_val) { val=new_val; }

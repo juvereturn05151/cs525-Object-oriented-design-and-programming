@@ -12,6 +12,7 @@ namespace DigiPen
       static int GetAlive() {return aliveAmount;}
       static int GetTotal() {return totalAmount;}
       Element1(int _val);
+      int GetId() const;
       int Get() const;
       void Set(int new_val); 
       void Print() const;
