@@ -9,10 +9,10 @@ void print( DigiPen::Array const& a )
 #if 1 
   // when working on the first step (that uses deep copy, before reference
   // counting) turn them off, since counts will be wrong
-	std::cout << "Element1: live  nodes  " << DigiPen::Element1::GetAlive() << std::endl; 
-	std::cout << "Element1: total nodes  " << DigiPen::Element1::GetTotal() << std::endl; 
-	std::cout << "Element2: live  nodes  " << DigiPen::Element2::GetAlive() << std::endl; 
-	std::cout << "Element2: total nodes  " << DigiPen::Element2::GetTotal() << std::endl; 
+	//std::cout << "Element1: live  nodes  " << DigiPen::Element1::GetAlive() << std::endl; 
+	//std::cout << "Element1: total nodes  " << DigiPen::Element1::GetTotal() << std::endl; 
+	//std::cout << "Element2: live  nodes  " << DigiPen::Element2::GetAlive() << std::endl; 
+	//std::cout << "Element2: total nodes  " << DigiPen::Element2::GetTotal() << std::endl; 
 #endif
 }
 

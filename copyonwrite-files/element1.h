@@ -9,10 +9,10 @@ namespace DigiPen
   {
     public:
       Element1(int _val);
-      int Get() const override;
-      void Set(int new_val) override; 
-      void Print() const override;
-      AbstractElement* Clone(int val) const override;
+      int Get() const;
+      void Set(int new_val); 
+      void Print() const;
+      AbstractElement* Clone(int val) const;
     private:
       int val;
   };

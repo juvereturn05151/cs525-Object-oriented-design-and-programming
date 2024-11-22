@@ -1,12 +1,13 @@
 #include "element2.h"
+using namespace DigiPen;
 
-DigiPen::Element2::Element2(int _val) : p_val(new int(_val)) { }
+Element2::Element2(int _val) : p_val(new int(_val)) { }
 
-DigiPen::Element2::Element2(const Element2& rhs) 
+Element2::Element2(const Element2& rhs) 
 	: AbstractElement(), p_val(new int(*rhs.p_val)) 
 { }
 
-DigiPen::Element2& DigiPen::Element2::operator=(const Element2& rhs) 
+Element2& DigiPen::Element2::operator=(const Element2& rhs) 
 {
   if (this!=&rhs) 
   {
@@ -17,22 +18,22 @@ DigiPen::Element2& DigiPen::Element2::operator=(const Element2& rhs)
   return *this;
 }
 
-int DigiPen::Element2::Get() const 
+int Element2::Get() const
 {
 	return *p_val;
 }
 
-void DigiPen::Element2::Print() const 
+void Element2::Print() const
 { 
   std::cout << "(" << *p_val << ") "; 
 }
 
-void DigiPen::Element2::Set(int new_val) 
+void Element2::Set(int new_val) 
 { 
 	*p_val = new_val; 
 }
 
-DigiPen::Element2::~Element2() 
+Element2::~Element2() 
 {
 	delete p_val;
 }
