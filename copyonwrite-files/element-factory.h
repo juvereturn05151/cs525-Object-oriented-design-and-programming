@@ -3,7 +3,8 @@
 #include "abstract-element.h"
 
 namespace DigiPen {
-	class ElementFactory {
+	class ElementFactory 
+	{
 		public:
 			AbstractElement* MakeElement(int id,int value) const;	
 	};

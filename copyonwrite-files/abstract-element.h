@@ -4,6 +4,8 @@ E-mail: juvereturn@gmail.com
 Brief:
 An abstract used for deriving Element1 and Element2
 */
+#ifndef AbstractElement_H
+#define AbstractElement_H
 namespace DigiPen 
 {
     class AbstractElement 
@@ -21,3 +23,4 @@ namespace DigiPen
         virtual AbstractElement* Clone(int val) const = 0;
     };
 }
+#endif
