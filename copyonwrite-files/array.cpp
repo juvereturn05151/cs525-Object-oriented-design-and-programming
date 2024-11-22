@@ -3,13 +3,41 @@ using namespace DigiPen;
 // if Factory is used cirrectly, there will be no more includes
 
 Array::Array(int * array, unsigned int _size, const DigiPen::ElementFactory* _pElementFactory) 
-: data(new AbstractElement*[_size]), size(_size), pElementFactory(_pElementFactory)
+: data(new AbstractElement*[_size]), size(_size), pElementFactory(_pElementFactory) , refCount(new int(1))
 {
 	for ( unsigned int i=0; i<size; ++i ) 
 	{
 		//create Element with id = 1 (that is Element1 )
 		data[i] = pElementFactory->MakeElement( 1, array[i] );
 	}
+}
+
+// Copy constructor 
+Array::Array(const Array& other)
+ : data(other.data), size(other.size), pElementFactory(other.pElementFactory), refCount(other.refCount) 
+{ 
+	++(*refCount); 
+}
+
+// Assignment operator 
+Array& DigiPen::Array::operator=(const Array& other) 
+{ 
+	if (this != &other) 
+	{
+		DeleteData(); 
+		data = other.data; 
+		size = other.size; 
+		pElementFactory = other.pElementFactory; 
+		refCount = other.refCount; 
+		++(*refCount); 
+	} 
+	
+	return *this; 
+} 
+	
+Array::~Array() 
+{ 
+	DeleteData(); 
 }
 
 int Array::Get(unsigned int pos) const
@@ -24,30 +52,42 @@ void Array::Set( int id, int pos, int value )
 	data[pos] = pElementFactory->MakeElement(id,value); // make sure is used 
 }
 
+void Array::DeepCopy()
+{ 
+	// Perform deep copy only if reference count is greater than 1 
+	if (*refCount > 1) 
+	{ // Decrement the reference count of the current shared data 
+	--(*refCount); 
+	// Create a new array to hold the copied elements 
+	AbstractElement** newData = new AbstractElement*[size];
+	 for (unsigned int i = 0; i < size; ++i) 
+	 { // Ensure a deep copy of each element 
+	 newData[i] = pElementFactory->MakeElement(1, data[i]->Get()); 
+	 } 
+	 // No need to delete elements here since they are still shared with other instances 
+	 // Update the data pointer and reference count 
+	 data = newData; 
+	 refCount = new int(1); 
+	 // Initialize a new reference count for the new data 
+	 }
+}
+
 void Array::Print() const 
 {
 	for (unsigned int i=0;i<size;++i) data[i]->Print(); 
 	std::cout << std::endl;
 }
 
-void Array::DeepCopy()
+void Array::DeleteData() 
 { 
-	// create a new array to hold the copied elements 
-	AbstractElement** newData = new AbstractElement*[size]; 
-	for (unsigned int i = 0; i < size; ++i) 
-	{ 	
-		// ensure a deep copy of each element 
-		newData[i] = pElementFactory->MakeElement(1, data[i]->Get()); 
-	} 
-
-	// clean up the old data 
-	for (unsigned int i = 0; i < size; ++i) 
+	if (--(*refCount) == 0) 
 	{ 
-		delete data[i]; 
-	} 
-		
-	delete[] data;
-	
-	// update the data pointer to the new array 
-	data = newData; 
+		for (unsigned int i = 0; i < size; ++i) 
+		{ 
+			delete data[i]; 
+		} 
+
+		delete[] data; 
+		delete refCount; 
+	}
 }

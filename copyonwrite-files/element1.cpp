@@ -25,7 +25,8 @@ AbstractElement* Element1::Clone(int val) const
 
 void Element1::IncrementElement()
 { 
-  aliveAmount++; totalAmount++;
+  aliveAmount++; 
+  totalAmount++;
 }
 
 void Element1::DecrementElement()

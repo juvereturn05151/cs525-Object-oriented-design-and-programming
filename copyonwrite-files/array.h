@@ -14,19 +14,24 @@ namespace DigiPen
 	class Array 
     {
 		public:
-			Array(int * array, unsigned int _size, 
-					const ElementFactory* _pElementFactory
-					);
+			Array(int * array, unsigned int _size, const ElementFactory* _pElementFactory);
+			Array(const Array& rhs);
+			Array& operator=(const Array& other);
+			~Array();
 
 			int Get(unsigned int pos) const;
 			void Set(int id, int pos, int value);
-
 			void Print() const;
-			void DeepCopy();
 		private:
 			AbstractElement** data;
 			unsigned int size;
 			ElementFactory const* pElementFactory;
+
+			// Reference count 
+			int* refCount; 
+			// Helper methods 
+			void DeepCopy(); 
+			void DeleteData();
 	};
 }
 #endif
