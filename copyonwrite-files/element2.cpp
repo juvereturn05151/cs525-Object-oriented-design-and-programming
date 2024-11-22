@@ -1,7 +1,13 @@
 #include "element2.h"
 using namespace DigiPen;
 
-Element2::Element2(int _val) : p_val(new int(_val)) { }
+int Element2::aliveAmount = 0;
+int Element2::totalAmount = 0;
+
+Element2::Element2(int _val) : p_val(new int(_val)) 
+{
+	IncrementElement();	
+}
 
 Element2::Element2(const Element2& rhs) 
 	: AbstractElement(), p_val(new int(*rhs.p_val)) 
@@ -38,7 +44,19 @@ AbstractElement* Element2::Clone(int val) const
   return new Element2(val); 
 }
 
+void Element2::IncrementElement()
+{ 
+  aliveAmount++; 
+  totalAmount++;
+}
+
+void Element2::DecrementElement()
+{ 
+  aliveAmount--;
+}
+
 Element2::~Element2() 
 {
+	DecrementElement();
 	delete p_val;
 }

@@ -11,16 +11,20 @@ namespace DigiPen
     class AbstractElement 
     {
     public:
-        //Virtual destructor to ensure proper cleanup of derived classes
+        // virtual destructor to ensure proper cleanup of derived classes
         virtual ~AbstractElement() {}
 
-        //Pure virtual methods to be implemented by derived classes
+        // pure virtual methods to be implemented by derived classes
         virtual int Get() const = 0;
         virtual void Set(int new_val) = 0;
         virtual void Print() const = 0;
-
-        //Clone function for deep copy (Prototype pattern)
+        
+        // clone function for deep copy (Prototype pattern)
         virtual AbstractElement* Clone(int val) const = 0;
+    protected:
+        // reference counting helper methods
+        virtual void IncrementElement() = 0;
+        virtual void DecrementElement() = 0;
     };
 }
 #endif
