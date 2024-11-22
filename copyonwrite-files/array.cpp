@@ -24,3 +24,25 @@ void Array::Print() const
 	for (unsigned int i=0;i<size;++i) data[i]->Print(); 
 	std::cout << std::endl;
 }
+
+void Array::DeepCopy()
+{ 
+	// create a new array to hold the copied elements 
+	AbstractElement** newData = new AbstractElement*[size]; 
+	for (unsigned int i = 0; i < size; ++i) 
+	{ 	
+		// ensure a deep copy of each element 
+		newData[i] = pElementFactory->MakeElement(1, data[i]->Get()); 
+	} 
+
+	// clean up the old data 
+	for (unsigned int i = 0; i < size; ++i) 
+	{ 
+		delete data[i]; 
+	} 
+		
+	delete[] data;
+	
+	// update the data pointer to the new array 
+	data = newData; 
+}

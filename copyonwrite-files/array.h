@@ -22,6 +22,7 @@ namespace DigiPen
 			void Set(int id, int pos, int value);
 
 			void Print() const;
+			void DeepCopy();
 		private:
 			AbstractElement** data;
 			unsigned int size;
