@@ -17,11 +17,17 @@ Element2& DigiPen::Element2::operator=(const Element2& rhs)
 {
   if (this!=&rhs) 
   {
-	delete p_val;
-	p_val = new int(*rhs.p_val);
+    delete p_val;
+    p_val = new int(*rhs.p_val);
   } 
 
   return *this;
+}
+
+Element2::~Element2() 
+{
+	DecrementElement();
+	delete p_val;
 }
 
 int Element2::GetId() const
@@ -58,10 +64,4 @@ void Element2::IncrementElement()
 void Element2::DecrementElement()
 { 
   aliveAmount--;
-}
-
-Element2::~Element2() 
-{
-	DecrementElement();
-	delete p_val;
 }

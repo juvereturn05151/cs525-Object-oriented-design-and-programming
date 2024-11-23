@@ -2,7 +2,7 @@
 using namespace DigiPen;
 // if Factory is used cirrectly, there will be no more includes
 
-Array::Array(int * array, unsigned int _size, const DigiPen::ElementFactory* _pElementFactory) 
+Array::Array(int * array, unsigned int _size, const ElementFactory* _pElementFactory) 
 : data(new AbstractElement*[_size]), size(_size), pElementFactory(_pElementFactory) , refCount(new int(1))
 {
 	for ( unsigned int i=0; i<size; ++i ) 
@@ -20,8 +20,10 @@ Array::Array(const Array& other)
 }
 
 // Assignment operator 
-Array& DigiPen::Array::operator=(const Array& other) 
+Array& Array::operator=(const Array& other) 
 { 
+	//if the array share the same address, we ignore this
+	//if not, we have to delete the data(which will decrement 1 ref count)
 	if (this != &other) 
 	{
 		DeleteData(); 
@@ -54,20 +56,26 @@ void Array::Set( int id, int pos, int value )
 
 void Array::DeepCopy()
 { 
-	// Perform deep copy only if reference count is greater than 1 
+	// the data is shared, thus if we modify data, than more then
+    // 1 object will see the change - something we want to avoid, so we need to
+    // "fork" - we need both objects to have their own version of data.
 	if (*refCount > 1) 
-	{ // Decrement the reference count of the current shared data 
+	{ 
+		// decrement here because there will be 1 less shared data
 		--(*refCount); 
-		// Create a new array to hold the copied elements 
+
+		// create a new array to hold the copied elements 
 		AbstractElement** newData = new AbstractElement*[size];
 		for (unsigned int i = 0; i < size; ++i) 
-		{ // Ensure a deep copy of each element 
+		{ 
+			// ensure a deep copy of each element 
 			newData[i] = pElementFactory->MakeElement(data[i]->GetId(), data[i]->Get()); 
 		} 
-		// No need to delete elements here since they are still shared with other instances 
-		// Update the data pointer and reference count 
+
+		// no need to delete elements here since they are still shared with other instances 
+		// update the data pointer and reference count 
 		data = newData; 
-		// Initialize a new reference count for the new data 
+		// initialize a new reference count for the new data 
 		refCount = new int(1); 
 	 }
 }

@@ -1,3 +1,11 @@
+/*
+Author: Ju-ve Chankasemporn
+E-mail: juvereturn@gmail.com
+Brief:
+Class Array implements a simple array-like data structure.
+Objects inside the Array have to be derived from AbstractElement.
+*/
+
 #ifndef ARRAY_H
 #define ARRAY_H
 #include "abstract-element.h"
@@ -6,11 +14,6 @@
 
 namespace DigiPen 
 {
-
-/*
- * Class Array implements a simple array-like data structure.
- * Objects inside the Array have to be derived from AbstractElement.
- */
 	class Array 
     {
 		public:
@@ -27,9 +30,9 @@ namespace DigiPen
 			unsigned int size;
 			ElementFactory const* pElementFactory;
 
-			// Reference count 
+			//Using a pointer for reference counting ensures multiple objects can share and modify the same reference count.
 			int* refCount; 
-			// Helper methods 
+
 			void DeepCopy(); 
 			void DeleteData();
 	};

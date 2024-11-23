@@ -23,10 +23,11 @@ namespace DigiPen
       void DecrementElement();
     
     private:
-      int val;
       // static variables
       static int aliveAmount;
       static int totalAmount;
+
+      int val;
   };
 }
 #endif

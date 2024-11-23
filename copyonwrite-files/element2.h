@@ -15,12 +15,12 @@ namespace DigiPen
       Element2(int _val);
       Element2(const Element2& rhs);
       Element2& operator=(const Element2& rhs);
+      ~Element2();
       int GetId() const;
       int Get() const;
       void Set(int new_val);
       void Print() const;
       AbstractElement* Clone(int val) const;
-      ~Element2();
     protected:
       void IncrementElement();
       void DecrementElement();

@@ -9,6 +9,11 @@ Element1::Element1(int _val) : val(_val)
   IncrementElement();	
 }
 
+Element1::~Element1()
+{
+	DecrementElement();
+}
+
 int Element1::GetId() const
 {
   return 1;
@@ -39,7 +44,3 @@ void Element1::DecrementElement()
   aliveAmount--;
 }
 
-Element1::~Element1()
-{
-	DecrementElement();
-}
