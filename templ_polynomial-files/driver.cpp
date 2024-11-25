@@ -142,7 +142,7 @@ void test5()
         int r3 = p7_1(values[i]);
         int r4 = p7_2(values[i]);
         std::cout << r3 << " " << r4 << std::endl;
-        if ( r1*r2 != r3 or r1*r2 != r4 ) {
+        if ( r1*r2 != r3 || r1*r2 != r4 ) {
             std::cout << "Error\n";
         }
     }
@@ -204,7 +204,7 @@ void test6()
         int r2 = p5(values[i]);
         int r3 = p9_1(values[i]);
         int r4 = p9_2(values[i]);
-        if ( r1*r2 != r3 or r1*r2 != r4 ) {
+        if ( r1*r2 != r3 || r1*r2 != r4 ) {
             std::cout << "Error\n";
         } else {
             std::cout << "OK\n";
