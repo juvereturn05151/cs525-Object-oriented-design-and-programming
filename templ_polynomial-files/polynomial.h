@@ -11,7 +11,7 @@ private:
     T coeff[N + 1];
 
 public:
-    // Default constructor
+    // default constructor
     Polynomial() 
     {
         for (int i = 0; i <= N; ++i) 
@@ -30,33 +30,42 @@ public:
         }
     }
 
-    // Access coefficients
-    T getCoefficient(int index) const {
+    // access coefficients
+    T getCoefficient(int index) const 
+    {
         return coeff[index];
     }
 
-    // Modifiable access
-    T& operator[](unsigned int index) {
-        if (index > N) {
+    // modifiable access
+    T& operator[](unsigned int index) 
+    {
+        if (index > N) 
+        {
             throw std::out_of_range("Index out of range");
         }
+
         return coeff[index];
     }
 
-    // Read-only access
-    const T& operator[](unsigned int index) const {
-        if (index > N) {
+    // read-only access
+    T operator[](unsigned int index) const 
+    {
+        if (index > N) 
+        {
             throw std::out_of_range("Index out of range");
         }
+
         return coeff[index];
     }
 
-    // Evaluate polynomial at a value
-    T operator()(T x) const {
+    // evaluate polynomial at a value
+    T operator()(T x) const 
+    {
         T result = 0;
         T power = 1;
 
-        for (int i = 0; i <= N; ++i) {
+        for (int i = 0; i <= N; ++i) 
+        {
             result += coeff[i] * power;
             power *= x;
         }
@@ -64,16 +73,16 @@ public:
         return result;
     }
 
-    // Declare friend operator*
+    // declare friend operator*
     template <typename U, int P, int Q>
     friend Polynomial<U, P + Q> operator*(const Polynomial<U, P>& lhs, const Polynomial<U, Q>& rhs);
 
-    // Friend operator<< for output
+    // friend operator<< for output
     template <typename U, int M>
     friend std::ostream& operator<<(std::ostream& os, const Polynomial<U, M>& poly);
 };
 
-// Operator* implementation
+// operator* implementation
 template <typename T, int N, int K>
 Polynomial<T, N + K> operator*(const Polynomial<T, N>& lhs, const Polynomial<T, K>& rhs) 
 {
@@ -90,19 +99,22 @@ Polynomial<T, N + K> operator*(const Polynomial<T, N>& lhs, const Polynomial<T, 
     return result;
 }
 
-// Operator<< for output
+// operator<< for output
 template <typename T, int N>
-std::ostream& operator<<(std::ostream& os, const Polynomial<T, N>& poly) 
+std::ostream& operator<<( std::ostream &out, Polynomial<T, N> const& pol )
 {
-    os << poly.coeff[0];
-    for (int i = 1; i <= N; ++i) 
-    {
-        if (poly.coeff[i] != 0) 
-        {
-            os << (poly.coeff[i] > 0 ? " + " : " - ") << std::abs(poly.coeff[i]) << "x^" << i;
+    out << pol.coeff[0] << " ";
+    for ( int i=1;i<=N; ++i ) {
+        if ( pol.coeff[i] != 0 ) { // skip terms with zero coefficients
+            if      ( pol.coeff[i] > 0 ) {  out << "+"; }
+
+            if      ( pol.coeff[i] == 1 )  { }
+            else if ( pol.coeff[i] == -1 ) { out << "-"; }
+            else                          { out << pol.coeff[i] << "*"; }
+            out << "x^" << i << " ";
         }
     }
-    return os;
+    return out;
 }
 
 #endif // POLYNOMIAL_H
