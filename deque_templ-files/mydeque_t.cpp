@@ -2,6 +2,7 @@
 #include <iostream>
 #include <stdexcept> // For exceptions
 #include <algorithm> // For std::swap
+#include <iomanip>
 /*
 Note: "% capacity" is for wrapping around the deque
 */
@@ -87,6 +88,11 @@ namespace DigiPen
             throw std::underflow_error("Deque is empty");
         }
 
+        if (size == capacity / 4) 
+        { 
+            reallocate(capacity / 2);
+        }
+
         T val = array[b];
         b = (b + 1) % capacity;
         --size;
@@ -94,7 +100,8 @@ namespace DigiPen
     }
 
     template<typename T>
-    void Deque<T>::Push_back(T val) {
+    void Deque<T>::Push_back(T val) 
+    {
         if (size == capacity) 
         {
             //if there is nothing, default to else double the capacity
@@ -114,10 +121,15 @@ namespace DigiPen
             throw std::underflow_error("Deque is empty");
         }
 
-        e = (e - 1 + capacity) % capacity;
-        T val = array[e];
-        --size;
-        return val;
+        if (size == capacity / 4) 
+        { 
+            reallocate(capacity / 2);
+        }
+
+        e = (e - 1 + capacity) % capacity; 
+        T val = array[e];                  
+        --size;                            // Decrease the size
+        return val;    
     }
 
     template<typename T>
@@ -191,29 +203,68 @@ namespace DigiPen
     template<typename T>
     void Deque<T>::Print() const 
     {
-        for (int i = 0; i < size; ++i) 
-        {
-            std::cout << (*this)[i] << " ";
+        std::cout << "size = " << size << " capacity = " << capacity <<  std::endl;
+
+        if ( array == nullptr ) {
+            std::cout << "array=nullptr" << std::endl;
+            return;
         }
+
+        // deque may still be empty, but array is allocated, so print some data
+        int width = 3;
+        // line of indices
+        for ( int i=0; i<capacity; ++i ) {
+            std::cout << std::setw(width) << i;
+        }
+        std::cout << " indices" << std::endl;
+        // line of data
+        for ( int i=0; i<capacity; ++i ) {
+            if ( (b<=i and i<e)                         //  ....b.....e.....
+                    or (e<b and ( b<=i or i<e) )        //  ....e.....b.....
+                    or ( b==e and size>0 ) )            //  ....be.......... either empty or full - look at size
+                std::cout << std::setw(width) << array[i];
+                else 
+                std::cout << std::setw(width) << ".";
+        }
+        std::cout << " data" << std::endl;
+
+        char ch1 = 'b', ch2 = 'e';
+        int dist1 = b+1, dist2 = e-b;
+        if( e<b ) {  ch1 = 'e'; ch2 = 'b'; dist1 = e+1; dist2 = b-e; }
+        std::cout << std::setw(width*dist1) << ch1;
+        std::cout << std::setw(width*dist2) << ch2;
         std::cout << std::endl;
     }
 
     template<typename T>
     void Deque<T>::reallocate(int new_capacity) 
     {
-        if (new_capacity <= size) return;
-
-        T* new_array = new T[new_capacity];
-        for (int i = 0; i < size; ++i) 
+        // clean - dtor uses this
+        if ( new_capacity == 0 ) 
         {
-            new_array[i] = (*this)[i];
-        }
+            delete [] array;
+            array = nullptr;
+            b = 0;
+            e = 0;
+            size = 0; 
+            capacity = 0;
 
-        delete[] array;
-        array = new_array;
-        b = 0;
-        e = size;
-        capacity = new_capacity;
+        } else 
+        {
+            // do not check whether new_capacity makes sense etc - it is caller's responsibility
+            T * new_array = new T [new_capacity];
+            for ( int i=0;i<size;++i ) 
+            {
+                new_array[i]=array[(b+i)%capacity]; // new b is 0
+            }
+            //for (int i=size;i<capacity;++i) new_array[i]=0;
+            delete [] array;
+            array = new_array;
+            b = 0;
+            e = size;
+            // same size
+            capacity = new_capacity;
+        }
     }
 
     template<typename T>

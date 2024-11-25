@@ -671,8 +671,8 @@ void test21 () {
     }
 
     // empty by popping
-    while ( not dd.Empty() ) {
-        while ( not dd[0].Empty() ) {
+    while ( !dd.Empty() ) {
+        while ( !dd[0].Empty() ) {
             dd[0].Pop_front();
         }
         dd.Pop_back();
