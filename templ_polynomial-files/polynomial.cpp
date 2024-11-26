@@ -1,6 +1,6 @@
 #include "polynomial.h"
 
-// Default constructor
+// default constructor
 template <typename T, int N>
 Polynomial<T, N>::Polynomial() 
 {
@@ -10,24 +10,17 @@ Polynomial<T, N>::Polynomial()
     }
 }
 
-// Conversion constructor
+// conversion constructor
 template <typename T, int N>
 template <typename U>
 Polynomial<T, N>::Polynomial(const Polynomial<U, N>& other) 
 {
     for (int i = 0; i <= N; ++i) {
-        coeff[i] = static_cast<T>(other.getCoefficient(i));
+        coeff[i] = static_cast<T>(other[i]);
     }
 }
 
-// Access coefficients
-template <typename T, int N>
-T Polynomial<T, N>::getCoefficient(int index) const 
-{
-    return coeff[index];
-}
-
-// Modifiable access
+// modifiable access
 template <typename T, int N>
 T& Polynomial<T, N>::operator[](unsigned int index) 
 {
@@ -38,7 +31,7 @@ T& Polynomial<T, N>::operator[](unsigned int index)
     return coeff[index];
 }
 
-// Read-only access
+// read-only access
 template <typename T, int N>
 T Polynomial<T, N>::operator[](unsigned int index) const 
 {
@@ -49,14 +42,15 @@ T Polynomial<T, N>::operator[](unsigned int index) const
     return coeff[index];
 }
 
-// Evaluate polynomial at a value
+// evaluate polynomial at a value
 template <typename T, int N>
 T Polynomial<T, N>::operator()(T x) const 
 {
     T result = 0;
     T power = 1;
 
-    for (int i = 0; i <= N; ++i) {
+    for (int i = 0; i <= N; ++i) 
+    {
         result += coeff[i] * power;
         power *= x;
     }
@@ -64,14 +58,16 @@ T Polynomial<T, N>::operator()(T x) const
     return result;
 }
 
-// Operator* implementation
+// operator* implementation
 template <typename T, int N, int K>
 Polynomial<T, N + K> operator*(const Polynomial<T, N>& lhs, const Polynomial<T, K>& rhs) 
 {
     Polynomial<T, N + K> result;
 
-    for (int i = 0; i <= N; ++i) {
-        for (int j = 0; j <= K; ++j) {
+    for (int i = 0; i <= N; ++i) 
+    {
+        for (int j = 0; j <= K; ++j) 
+        {
             result.coeff[i + j] += lhs.coeff[i] * rhs.coeff[j];
         }
     }
@@ -79,7 +75,7 @@ Polynomial<T, N + K> operator*(const Polynomial<T, N>& lhs, const Polynomial<T, 
     return result;
 }
 
-// Operator<< implementation
+// operator<< implementation
 template <typename T, int N>
 std::ostream& operator<<(std::ostream& out, const Polynomial<T, N>& pol) 
 {

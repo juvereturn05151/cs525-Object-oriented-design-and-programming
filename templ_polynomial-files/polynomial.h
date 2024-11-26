@@ -18,9 +18,6 @@ public:
     template <typename U>
     Polynomial(const Polynomial<U, N>& other);
 
-    // access coefficients
-    T getCoefficient(int index) const;
-
     // modifiable access
     T& operator[](unsigned int index);
 
