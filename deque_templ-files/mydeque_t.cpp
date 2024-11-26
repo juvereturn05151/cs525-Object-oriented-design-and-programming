@@ -12,7 +12,7 @@ namespace DigiPen
     Deque<T>::Deque() : b(0), e(0), size(0), capacity(0), array(nullptr) {}
 
     template<typename T>
-    Deque<T>::Deque(Deque const& rhs) : b(0), e(rhs.size), size(rhs.size), capacity(rhs.capacity) 
+    Deque<T>::Deque(Deque const& rhs) : b(0), e(rhs.size), size(rhs.size), capacity(rhs.size) 
     {
         array = new T[capacity];
         for (int i = 0; i < size; ++i) 
@@ -35,7 +35,7 @@ namespace DigiPen
     }
 
     template<typename T>
-    Deque<T>::Deque(T* array_, unsigned int size_) : b(0), e(size_), size(size_), capacity(size_ * 2) 
+    Deque<T>::Deque(T* array_, unsigned int size_) : b(0), e(size_), size(size_), capacity(size_) 
     {
         array = new T[capacity];
         for (unsigned int i = 0; i < size_; ++i) 
