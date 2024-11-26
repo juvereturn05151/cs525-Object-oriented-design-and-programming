@@ -29,7 +29,7 @@ void random_array( size_t size, int num_experiments )
     //std::cout << std::endl;
 
     bool OK = true;
-    for ( int i=0; i<num_experiments and OK; ++i ) {
+    for ( int i=0; i<num_experiments && OK; ++i ) {
         std::random_device rd;
         std::mt19937 g(rd());
         std::shuffle( a, a+size, g );
