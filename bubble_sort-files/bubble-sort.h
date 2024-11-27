@@ -5,7 +5,6 @@ void bubblesort( ForwardIt begin, ForwardIt end )
     if (begin == end) return; 
 
     bool swapped;
-
     do 
     {
         swapped = false;
@@ -19,7 +18,9 @@ void bubblesort( ForwardIt begin, ForwardIt end )
         {
             if (*next < *current) 
             {
-                std::swap(*current, *next);
+                //std::swap(*current, *next);
+
+
                 swapped = true;
                 // update the last modified position.
                 newEnd = next; 
