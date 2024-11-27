@@ -5,16 +5,19 @@ void bubblesort( ForwardIt begin, ForwardIt end )
     if (begin == end) return;
 
     bool swapped;
-    do {
+    do 
+    {
         swapped = false;
         ForwardIt current = begin;
-        ForwardIt next = std::next(begin); // corrected initialization of `next`
-
+        // corrected initialization of `next`
+        ForwardIt next = std::next(begin); 
         // tracks the last modified position in this pass.
         ForwardIt newEnd = begin;
 
-        while (next != end) {
-            if (*next < *current) {
+        while (next != end) 
+        {
+            if (*next < *current) 
+            {
                 // swap logic
                 auto temp = *current;
                 *current = *next;
@@ -29,5 +32,6 @@ void bubblesort( ForwardIt begin, ForwardIt end )
         }
         // update the end of the unsorted section.
         end = newEnd;
-    } while (swapped);
+    } 
+    while (swapped);
 }
