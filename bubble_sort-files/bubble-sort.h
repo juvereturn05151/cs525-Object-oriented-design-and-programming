@@ -2,34 +2,32 @@ template < typename ForwardIt >
 void bubblesort( ForwardIt begin, ForwardIt end )
 {
     // nothing to sort.
-    if (begin == end) return; 
+    if (begin == end) return;
 
     bool swapped;
-    do 
-    {
+    do {
         swapped = false;
         ForwardIt current = begin;
-        ForwardIt next = std::next(next);
+        ForwardIt next = std::next(begin); // corrected initialization of `next`
 
         // tracks the last modified position in this pass.
-        ForwardIt newEnd = begin; 
+        ForwardIt newEnd = begin;
 
-        while (next != end) 
-        {
-            if (*next < *current) 
-            {
-                //std::swap(*current, *next);
-
+        while (next != end) {
+            if (*next < *current) {
+                // swap logic
+                auto temp = *current;
+                *current = *next;
+                *next = temp;
 
                 swapped = true;
                 // update the last modified position.
-                newEnd = next; 
+                newEnd = next;
             }
             ++current;
             ++next;
         }
         // update the end of the unsorted section.
-        end = newEnd; 
-    } 
-    while (swapped);
+        end = newEnd;
+    } while (swapped);
 }
