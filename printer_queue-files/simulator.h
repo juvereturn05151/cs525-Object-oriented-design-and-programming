@@ -17,7 +17,8 @@
  */
 namespace std {
 	template <> 
-		class less<TimedCommand*> {
+		class less<TimedCommand*> 
+		{
 			public:
 				bool operator() 
 					(const TimedCommand* lhs,const TimedCommand* rhs) const 
@@ -28,22 +29,25 @@ namespace std {
 }
 
 /* main simulator class - runs an event-driven simulation */
-class Simulator {
+class Simulator 
+{
 	public:
         Simulator() : events() {} 
-		void Start () {
-			while ( !events.empty() ) {
+		void Start () 
+		{
+			while ( !events.empty() ) 
+			{
 				TimedCommand* ptc = events.top();
 				events.pop();
 				ptc->Execute();
 				delete ptc;
 			}
 		}
-		void AddEvent (TimedCommand* p_event) { 
+		void AddEvent (TimedCommand* p_event) 
+		{ 
 			events.push(p_event); 
 		}
 	private:
-		//std::priority_queue<TimedCommand*,std::vector<TimedCommand*>,PTCcompare> events;
 		std::priority_queue<TimedCommand*> events;
 };
 

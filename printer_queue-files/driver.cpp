@@ -10,7 +10,7 @@ void test0() {
 	//create an event: new print job of id=1, low priority, and size 200 pages 
 	//arrives at time 3.0
 	sim.AddEvent( new EventNewJobArrived( 3.0,
-				PrintJob(1,PrintJob::LOW,200) ,&pq,&PrintQueue::NewJobArrived));
+				PrintJob(1,PrintJob::LOW,200) , &pq, &PrintQueue::NewJobArrived));
 
 	sim.Start();
 }

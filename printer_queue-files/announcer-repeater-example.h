@@ -16,13 +16,15 @@ class Announce {
 };
 
 //////////////////////////////////////////////////////////
-//this is an event class that corresponds to Announce
+//this is an ev
+
 //it has a pointer to an object and method
 class AnnounceEvent : public TimedCommand {
+private:
 	Announce* p_processor; //pointer to object
 	void (Announce::*p_method)(double); //pointer to method
 
-	public:
+public:
 	AnnounceEvent(
 			double when, //when to call
 			Announce* _p_processor, //who to call
@@ -31,13 +33,14 @@ class AnnounceEvent : public TimedCommand {
 	{ SetWhen(when); }
 
 	virtual void Execute() { (p_processor->*p_method)( When() ); }
-    private:
+private:
     AnnounceEvent( AnnounceEvent const& );
     AnnounceEvent& operator=( AnnounceEvent const& );
 };
 
 // implementation of the method which is called through the event
-void Announce::DoWork( double current_time ) {
+void Announce::DoWork( double current_time ) 
+{
 	std::cout << "Announce: " << msg << " current time is " 
 		<< current_time << ")\n";
 }
@@ -45,13 +48,14 @@ void Announce::DoWork( double current_time ) {
 //////////////////////////////////////////////////////////
 //this is the reciever class - it will be called when event occurs
 class Repeater {
+private:
 	Simulator* psim;
 	std::string msg;
-	public:
+public:
 	Repeater(Simulator* _psim, const std::string& _msg) :
 		psim(_psim), msg(_msg) {}
 	void ContinueRepeating( double,double,int );
-    private:
+private:
     Repeater( Repeater const& );
     Repeater& operator=( Repeater const& );
 };
