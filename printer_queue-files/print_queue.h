@@ -41,19 +41,25 @@ namespace std {
  */
 class PrintQueue 
 {
-    Simulator* psim; // Manages events
-    int num_available_printers; // Count of available printers
+private:
+	// Manages events
+    Simulator* psim; 
+	// Count of available printers
+    int num_available_printers; 
+	typedef std::map<int, std::pair<bool, double>> ID2pair;
+	// Stores printer availability and speed
+    ID2pair printer_status; 
+	// Job queue
+    std::priority_queue<std::pair<PrintJob, double>> jobs_in_queue; 
 public:
     PrintQueue(Simulator* _psim);
     void RegisterPrinter(int ID, double speed);
     void JobFinished(double current_time, int printerID, PrintJob job);
     void NewJobArrived(double current_time, PrintJob job);
 private:
-    typedef std::map<int, std::pair<bool, double>> ID2pair;
-	// Stores printer availability and speed
-    ID2pair printer_status; 
-	// Job queue
-    std::priority_queue<std::pair<PrintJob, double>> jobs_in_queue; 
+
+	PrintQueue(const PrintQueue&) = delete;
+    PrintQueue& operator=(const PrintQueue&) = delete;
 };
 
 /* "printer just finished a job" event
@@ -62,13 +68,12 @@ private:
 class EventJobFinished : public TimedCommand 
 {
 private:
+    PrintJob job;            
+    PrintQueue* p_print_queue; 
     void (PrintQueue::*p_method)(double, int, PrintJob); 
-    int printerID;           // ID of the printer that finished the job
-    PrintJob job;            // The job that was completed
-    PrintQueue* p_print_queue; // Pointer to the PrintQueue
+    int printerID;          
 	
 public:
-	 // Updated constructor
     EventJobFinished(
         double when,
         const PrintJob& _job,
@@ -80,21 +85,21 @@ public:
 		SetWhen(when);
 	}
 
-    // Execute the event
     virtual void Execute() override 
 	{
-        // Call the provided method in PrintQueue with the given job, printer ID, and time
         (p_print_queue->*p_method)(When(), printerID, job);
     }
-
+	EventJobFinished(const EventJobFinished&) = delete;
+    EventJobFinished& operator=(const EventJobFinished&) = delete;
 };
 
 /* new job just arrived event, has information about the job*/
 class EventNewJobArrived : public TimedCommand {
+private:
 	PrintJob job;
 	PrintQueue* p_print_queue;
 	void (PrintQueue::*p_method)(double,PrintJob);
-	public:
+public:
 	EventNewJobArrived(
 		double when, 
 		const PrintJob& _job,
@@ -107,9 +112,11 @@ class EventNewJobArrived : public TimedCommand {
 
 	virtual void Execute() override
 	{
-		// Call the provided method in PrintQueue with the given job and time
     	(p_print_queue->*p_method)(When(), job);
 	}
+
+	EventNewJobArrived(const EventNewJobArrived&) = delete;
+    EventNewJobArrived& operator=(const EventNewJobArrived&) = delete;
 };
 
 #endif

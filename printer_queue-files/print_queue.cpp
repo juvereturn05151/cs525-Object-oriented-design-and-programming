@@ -4,7 +4,7 @@
  * pointer to a simulator that's running it
  */ 
 PrintQueue::PrintQueue(Simulator* _psim) : 
-	psim(_psim),num_available_printers(0) 
+	psim(_psim),num_available_printers(0),printer_status(), jobs_in_queue()    
 {}
 
 /* to use a printer we need to register it with the print queue first */
@@ -39,7 +39,6 @@ void PrintQueue::JobFinished( double current_time, int printerID, PrintJob job)
 
         // assign the new job to this printer
         PrintJob new_job = next_job.first;
-        double arrival_time = next_job.second;
 
         // mark as unavailable
         it->second.first = false;
