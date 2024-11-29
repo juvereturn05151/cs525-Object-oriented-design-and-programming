@@ -115,24 +115,12 @@ void PrintQueue::NewJobArrived( double current_time, PrintJob job )
         ));
 
         // Log the assignment
-        std::cout << "Job " << job.jobID 
-                  << " assigned to printer " << it->first 
-                  << " at time " << current_time << std::endl;
+		std::cout << "Job assigned to printer " << it->first
+			<< " at time " << current_time << std::endl;
     } 
     else {
         // No available printers: add the job to the print queue
-        jobs_in_queue.push(std::make_pair(job, current_time));
-        std::cout << "No available printers - job " << job.jobID 
-                  << " added to print queue." << std::endl;
+        std::cout << "No available printers - put in print queue\n";
+		jobs_in_queue.push(std::make_pair(job, current_time));
     }
 }
-
-////////////////////////////////////////////////////////////
-/* EventJobFinished implementation */
-////////////////////////////////////////////////////////////
-
-
-////////////////////////////////////////////////////////////
-/* EventNewJobArrived implementation */
-////////////////////////////////////////////////////////////
-

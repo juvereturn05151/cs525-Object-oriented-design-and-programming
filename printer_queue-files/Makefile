@@ -17,8 +17,6 @@ else
 CYGWIN=-Wl,--enable-auto-import
 endif
 
-example:
-	$(GCC) -o $@.exe $(DRIVER_EXAMPLE)
 gcc0:
 	$(GCC) -o $(PRG) $(CYGWIN) $(DRIVER0) $(OBJECTS0) $(GCCFLAGS)
 0 1 2 3 4 5 6 7:
